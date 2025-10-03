@@ -1,9 +1,39 @@
 <script setup>
 import { useRouter } from "vue-router";
 import Menu from "../components/Menu.vue";
-import { ref } from "vue";
 import MyWork from "../components/MyWork.vue";
 import LastAnnouncement from "../components/LastAnnouncement.vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import Dashboards from "../components/Dashboards.vue";
+import LastPing from "../components/LastPing.vue";
+
+const layout = ref("grid3");
+
+// شورتکات‌ها: Alt + Shift + 1/2
+const handleKeydown = (event) => {
+  // اگر کلیدهای Ctrl و Shift همزمان فشرده شده باشند
+  if (event.ctrlKey && event.shiftKey) {
+    switch (event.key) {
+      case "E":
+        event.preventDefault();
+        layout.value = "grid";
+        break;
+      case "F":
+        event.preventDefault();
+        layout.value = "grid3";
+        break;
+    }
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("keydown", handleKeydown);
+});
+
+// حذف شنونده رویداد برای جلوگیری از نشت حافظه
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeydown);
+});
 
 const cards = ref([
   {
@@ -28,8 +58,10 @@ const router = useRouter();
 <template>
   <div class="bg-white h-full rounded-lg p-3">
     <div class="flex flex-col gap-5">
+      <div class=" px-5">
       <Menu />
-      <div class="grid grid-cols-12">
+      </div>
+      <div class="grid grid-cols-12 px-5 pb-20">
         <!-- اسلایدر -->
         <div class="border-2 col-span-9 border-neutral-300 rounded-lg">
           <v-carousel dir="ltr" height="300" show-arrows="hover" cycle hide-delimiter-background>
@@ -55,12 +87,24 @@ const router = useRouter();
         </div>
         <!-- کار های من -->
         <div class="col-span-full text-xl font-semibold mt-10">کار های من</div>
+        <div v-if="layout === 'grid'" id="divider" class=" mt-2"></div>
         <div class="col-span-full mt-5 px-5">
           <MyWork />
         </div>
         <div class="col-span-full text-xl font-semibold mt-10">جدیدترین اطلاعیه ها</div>
+        <div v-if="layout === 'grid'" id="divider" class=" mt-2"></div>
         <div class="col-span-full mt-5 px-5">
           <LastAnnouncement />
+        </div>
+        <div class="col-span-full text-xl font-semibold mt-10">جدیدترین داشبورد ها</div>
+        <div v-if="layout === 'grid'" id="divider" class=" mt-2"></div>
+        <div class="col-span-full mt-5 px-5">
+          <Dashboards />
+        </div>
+        <div class="col-span-full text-xl font-semibold mt-10">جدیدترین ها در پینگ</div>
+        <div v-if="layout === 'grid'" id="divider" class=" mt-2"></div>
+        <div class="col-span-full mt-5 px-5">
+          <LastPing />
         </div>
       </div>
     </div>
@@ -68,18 +112,10 @@ const router = useRouter();
 </template>
 
 <style scoped>
-::v-deep(.v-carousel__controls) {
-  border-radius: 10px;
-  padding: 4px 8px;
-}
-
-::v-deep(.v-btn.v-btn--icon.v-btn--density-default) {
-  color: #666 !important;
-  opacity: 0.7;
-}
-
-::v-deep(.v-btn.v-btn--icon.v-btn--density-default.v-btn--active) {
-  color: #000 !important;
-  opacity: 1;
+#divider {
+  height: 2px;
+  width: 160%;
+  background: blue;
+  background: linear-gradient(90deg, hsl(0, 63%, 54%), hsl(0, 53%, 55%), hsl(0, 0%, 20%));
 }
 </style>
