@@ -51,7 +51,7 @@ const menuItems = [
 
 <template>
   <div dir="rtl" class="bg-neutral-100 h-screen">
-    <div class="home-page">
+    <div class=" min-h-[100vh] w-full bg-cover" :style="{ backgroundImage: `url(/images/homepage.png)` }">
       <div class="w-full h-screen backdrop-blur-2xl grid grid-cols-12">
         <!-- منو (ثابت) -->
         <div class="col-span-1 w-[90px]">
@@ -101,7 +101,7 @@ const menuItems = [
 .home-page {
   width: 100%;
   min-height: 100vh;
-  background: url("images/homepage.png") no-repeat center center;
+  background: url("images/homepage.png") no-repeat center center !important;
   background-size: cover;
 }
 </style>
