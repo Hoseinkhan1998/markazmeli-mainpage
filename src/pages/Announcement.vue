@@ -5,23 +5,22 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 
 const layout = ref("list");
 
-
 // شورتکات‌ها: Alt + Shift + 1/2
 const handleKeydown = (event) => {
   // اگر کلیدهای Ctrl و Shift همزمان فشرده شده باشند
   if (event.ctrlKey && event.shiftKey) {
     switch (event.key) {
       case "Q":
-        event.preventDefault(); 
+        event.preventDefault();
         layout.value = "list";
         break;
       case "E":
-        event.preventDefault(); 
-        layout.value = "grid"; 
+        event.preventDefault();
+        layout.value = "grid";
         break;
       case "F":
-        event.preventDefault(); 
-        layout.value = "grid3"; 
+        event.preventDefault();
+        layout.value = "grid3";
         break;
     }
   }
@@ -44,30 +43,34 @@ const cards = ref([
     date: "۱۴۰۴/۰۳/۰۱",
     view: "۱۰",
     department: "اداره تحول",
+    description: "این دسترسی سبب می شود اعضای GAC از جدیدترین نوآوری های فنی و پیشرفت های آتی در حوزه سیستم نام های دامنه اینترنت مطلع باشند.",
   },
   {
     id: 2,
-    title: "دسترسی به کارشناسان و خبرگان موضوع در GAC و آیکن که سبب می شود اعضای GAC از جدیدترین نوآوری های فنی و پیشرفت های آتی در حوزه سیستم نام های دامنه اینترنت مطلع باشند.",
+    title: "از جدیدترین نوآوری های فنی و پیشرفت های آتی در حوزه سیستم نام های دامنه اینترنت مطلع باشند.",
     img: "/images/img1.png",
     date: "۱۴۰۴/۰۳/۰۱",
     view: "۲۳",
     department: "معاونت توسعه و برنامه ریزی",
+    description: "در این جلسه گزارشی از عملکرد کارگروه مذکور در محورهایی چون فرآیندهای اعطای مجوز به شرکت های ارائه دهنده خدمات ارائه شد.",
   },
   {
     id: 3,
-    title: "کارت امتیازی جدید gTLD که برای برنامه های جدید gTLDها حائز اهمیت است و به طور گسترده ای به عنوان یک پیروزی بزرگ و مدلی برای آینده، مورد ستایش قرار گرفته است.",
+    title: "ها حائز اهمیت است و به طور گسترده ای به عنوان یک پیروزی بزرگ و مدلی برای آینده، مورد ستایش قرار گرفته است.",
     img: "/images/img2.png",
     date: "۱۴۰۴/۰۳/۰۱",
     view: "۹۶",
     department: "فناوری اطلاعات",
+    description: "این دسترسی سبب می شود اعضای GAC از جدیدترین نوآوری های فنی و پیشرفت های آتی در حوزه سیستم نام های دامنه اینترنت مطلع باشند.",
   },
   {
     id: 4,
-    title: "دسترسی به کارشناسان و خبرگان موضوع در GAC و آیکن که سبب می شود اعضای GAC از جدیدترین نوآوری های فنی و پیشرفت های آتی در حوزه سیستم نام های دامنه اینترنت مطلع باشند.",
-    img: "/images/img3.png",
+    title: "از جدیدترین نوآوری های فنی و پیشرفت های آتی در حوزه سیستم نام های دامنه اینترنت مطلع باشند.",
+    img: "/images/img5.png",
     date: "۱۴۰۴/۰۳/۰۱",
     view: "۸۵",
     department: "مالی",
+    description: "در این جلسه گزارشی از عملکرد کارگروه مذکور در محورهایی چون فرآیندهای اعطای مجوز به شرکت های ارائه دهنده خدمات ارائه شد.",
   },
 ]);
 
@@ -93,97 +96,138 @@ const router = useRouter();
 </script>
 
 <template>
-  <div class="bg-white h-full rounded-lg p-3">
-    <div class="flex flex-col gap-5 pb-10">
+  <div class="bg-white h-full rounded-lg p-6">
+    <div class="flex flex-col gap-8 pb-10">
       <Menu activePage="announcement" />
-      <div dir="rtl" class="grid grid-cols-12 gap-5">
-        <div class="col-span-3" dir="rtl">
-          <div class="bg-white ps-3">واحد</div>
-          <select v-model="selectedDepartment" class="select w-full bg-white select-md border border-gray-300 rounded-lg px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+      <div class="grid grid-cols-12 gap-6 items-center">
+        <div class="col-span-3">
+          <label for="department-select" class="block text-sm font-medium text-gray-700 mb-1">دپارتمان</label>
+          <select
+            id="department-select"
+            v-model="selectedDepartment"
+            class="w-full bg-white border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
             <option v-for="dept in departments" :key="dept" :value="dept">
               {{ dept }}
             </option>
           </select>
         </div>
-        <div class="col-span-3 mt-6" dir="rtl">
+        <div class="col-span-4">
+          <label for="search-input" class="block text-sm font-medium text-gray-700 mb-1">جستجو در عنوان</label>
           <input
-            v-model="searchQuery"
+            id="search-input"
+            v-model.lazy="searchQuery"
             type="text"
-            placeholder="جستجو..."
-            class="w-full bg-white border border-gray-300 rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            placeholder="مثال: گزارش عملکرد..."
+            class="w-full bg-white border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" />
+        </div>
+        <div class="col-span-5 flex justify-end items-center self-end gap-x-2">
+          <p class="text-sm text-gray-500">تغییر نما:</p>
+          <button
+            @click="layout = 'list'"
+            :class="{ 'bg-blue-600 text-white': layout === 'list', 'bg-gray-200 text-gray-700': layout !== 'list' }"
+            class="p-2 rounded-lg transition-colors">
+            <v-icon>mdi-view-list</v-icon>
+          </button>
+          <button
+            @click="layout = 'grid'"
+            :class="{ 'bg-blue-600 text-white': layout === 'grid', 'bg-gray-200 text-gray-700': layout !== 'grid' }"
+            class="p-2 rounded-lg transition-colors">
+            <v-icon>mdi-view-grid</v-icon>
+          </button>
+          <button
+            @click="layout = 'compact'"
+            :class="{ 'bg-blue-600 text-white': layout === 'compact', 'bg-gray-200 text-gray-700': layout !== 'compact' }"
+            class="p-2 rounded-lg transition-colors">
+            <v-icon>mdi-view-dashboard</v-icon>
+          </button>
         </div>
       </div>
-      <!-- طرح اول -->
-      <!-- به جای بلوک‌های طرح اول و دوم، این ساختار را بگذارید -->
-      <div v-if="layout === 'list'" class="space-y-2">
-        <div
-          v-for="card in filteredCards"
-          :key="card.id"
-          class="grid gap-x-5 grid-cols-12 hover:bg-neutral-200 cursor-pointer transition-all duration-300 border-b-2 p-2 border-neutral-300 rounded-lg items-center">
-          <div class="col-span-2">
-            <img :src="card.img" alt="img" class="w-full h-32 object-cover rounded-lg" />
-          </div>
-          <div class="col-span-7 flex flex-col gap-2">
-            <h3 class="font-semibold text-gray-800 line-clamp-2">
-              {{ card.title }}
-            </h3>
-            <div class="flex items-center gap-2">
-              <span><v-icon class="!text-[20px]">mdi-domain</v-icon></span>
-              <span class="text-xs">{{ card.department }}</span>
+
+      <div>
+        <div v-if="layout === 'list'" class="border-t border-gray-200">
+          <div
+            v-for="card in filteredCards"
+            :key="card.id"
+            class="grid grid-cols-12 gap-6 items-center p-5 border-b border-gray-200 hover:bg-blue-50/50 cursor-pointer transition-colors duration-300"
+            @click="router.push('/announcement-detail')">
+            <div class="col-span-2">
+              <img :src="card.img" alt="img" class="w-full h-32 object-cover rounded-lg" />
             </div>
-            <div class="flex gap-1 mt-2 text-sm text-gray-500">
-              <span><v-icon>mdi-eye</v-icon></span>
-              <span>{{ card.view }} بازدید</span>
-              <span class="mr-10">{{ card.date }}</span>
-              <span><v-icon>mdi-calendar-clock</v-icon></span>
+            <div class="col-span-7 flex flex-col justify-center">
+              <h3 class="text-lg font-bold text-gray-800 line-clamp-2 leading-relaxed">
+                {{ card.title }}
+              </h3>
+              <div class="flex items-center gap-x-4 mt-3 text-sm text-gray-500">
+                <div class="flex items-center gap-x-1.5">
+                  <v-icon class="!text-lg">mdi-domain</v-icon><span>{{ card.department }}</span>
+                </div>
+                <div class="flex items-center gap-x-1.5">
+                  <v-icon class="!text-lg">mdi-calendar-clock</v-icon><span>{{ card.date }}</span>
+                </div>
+                <div class="flex items-center gap-x-1.5">
+                  <v-icon class="!text-lg">mdi-eye-outline</v-icon><span>{{ card.view }} بازدید</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-span-3 flex justify-end">
-            <button @click="router.push('/announcement-detail')" class="border-2 border-neutral-900 border-solid px-3 py-1 rounded-lg">مشاهده</button>
-          </div>
-        </div>
-      </div>
-      <div v-if="layout === 'grid'" class="grid grid-cols-12 gap-4">
-        <div
-          v-for="card in filteredCards"
-          :key="card.id"
-          class="col-span-4 h-[400px] border-2 border-neutral-300 hover:bg-neutral-200 transition-all duration-300 cursor-pointer rounded-lg p-2 flex flex-col gap-2 relative">
-          <img :src="card.img" alt="img" class="w-full h-[250px] object-cover rounded-lg" />
-          <h3 class="font-semibold text-gray-800 line-clamp-3">{{ card.title }}</h3>
-          <div class="absolute bottom-1 w-full pe-5">
-            <div class="flex justify-between items-center">
-              <div class="flex items-center gap-2">
-                <span><v-icon class="!text-[20px]">mdi-domain</v-icon></span>
-                <span class="text-xs">{{ card.department }}</span>
-              </div>
-              <div class="flex text-xs text-gray-500 items-center gap-1">
-                <span><v-icon>mdi-eye</v-icon></span>
-                <span class="text-sm">{{ card.view }}</span>
-                <span class="mr-10">{{ card.date }}</span>
-                <span><v-icon>mdi-calendar-clock</v-icon></span>
-              </div>
+            <div class="col-span-3 flex justify-end">
+              <button class="text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-100 transition-colors">مشاهده جزئیات</button>
             </div>
           </div>
         </div>
-      </div>
-      <div v-if="layout === 'grid3'" class="grid grid-cols-12 gap-4">
-        <div
-          v-for="card in filteredCards"
-          :key="card.id"
-          class="col-span-3 h-[400px] border-2 border-neutral-300 hover:bg-neutral-200 transition-all duration-300 cursor-pointer rounded-lg p-2 flex flex-col gap-2 relative">
-          <img :src="card.img" alt="img" class="w-full h-[250px] object-cover rounded-lg" />
-          <h3 class="font-semibold text-gray-800 line-clamp-3">{{ card.title }}</h3>
-          <div class="absolute bottom-1 w-full pe-5">
-            <div class="flex justify-between items-center">
-              <div class="flex items-center gap-2">
-                <span><v-icon class="!text-[20px]">mdi-domain</v-icon></span>
-                <span class="text-xs">{{ card.department }}</span>
+
+        <div v-if="layout === 'grid'" class="grid grid-cols-12 gap-6">
+          <div
+            v-for="card in filteredCards"
+            :key="card.id"
+            class="col-span-3 flex flex-col bg-white border border-gray-200 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer rounded-2xl overflow-hidden"
+            @click="router.push('/announcement-detail')">
+            <img :src="card.img" alt="img" class="w-full h-56 object-cover" />
+            <div class="p-5 flex flex-col flex-grow">
+              <div class="flex items-center gap-x-3 text-xs text-gray-500 mb-2">
+                <span>{{ card.department }}</span>
+                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                <span>{{ card.date }}</span>
               </div>
-              <div class="flex text-xs text-gray-500 items-center gap-1">
-                <span><v-icon>mdi-eye</v-icon></span>
-                <span class="text-sm">{{ card.view }}</span>
-                <span class="mr-10">{{ card.date }}</span>
-                <span><v-icon>mdi-calendar-clock</v-icon></span>
+              <h3 class="font-semibold text-gray-800 line-clamp-3 leading-relaxed flex-grow">
+                {{ card.title }}
+              </h3>
+              <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
+                <div class="flex items-center gap-x-1.5 text-sm text-gray-500">
+                  <v-icon class="!text-lg">mdi-eye-outline</v-icon><span>{{ card.view }}</span>
+                </div>
+                <a class="text-sm font-bold text-blue-600">ادامه مطلب &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="layout === 'compact'" class="grid grid-cols-12 gap-8">
+          <div v-for="card in filteredCards" :key="card.id" class="col-span-6" @click="router.push('/announcement-detail')">
+            <div class="bg-gray-50 rounded-2xl p-2 shadow-lg hover:shadow-xl hover:bg-neutral-200 transition-all duration-300 cursor-pointer h-[150px]">
+              <div class="grid grid-cols-5 gap-5">
+                <div class="col-span-1">
+                  <img :src="card.img" alt="img" class="w-full h-[130px] object-cover rounded-xl" />
+                </div>
+                <div class="col-span-4 flex flex-col">
+                  <h3 class="text-lg font-semibold text-gray-800 line-clamp-1">
+                    {{ card.title }}
+                  </h3>
+                  <p class="text-xs text-gray-600 mt-3 line-clamp-2 leading-relaxed">
+                    {{ card.description }}
+                  </p>
+
+                  <div class="mt-auto pt-4 flex items-center justify-between text-sm text-gray-500">
+                    <div class="flex items-center gap-x-2">
+                      <v-icon>mdi-domain</v-icon>
+                      <span>{{ card.department }}</span>
+                    </div>
+                    <div class="flex items-center gap-x-2 pe-10">
+                      <v-icon>mdi-eye-outline</v-icon>
+                      <span>{{ card.view }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

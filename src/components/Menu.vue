@@ -1,54 +1,60 @@
 <script setup>
-import { useRouter } from "vue-router";
+import { ref } from 'vue';
 
 // پراپس برای مشخص کردن صفحه فعال
 defineProps({
-  activePage: {
-    type: String,
-    default: "",
-  },
+ activePage: {
+  type: String,
+  default: "announcement", // یک مقدار پیش‌فرض برای نمایش حالت فعال
+ },
 });
 
-const router = useRouter();
+// لیست آیتم‌های منو برای شبیه‌سازی واقعی‌تر
+const menuItems = ref([
+ { id: 'announcement', label: 'اطلاعیه', to: '/announcement', hasNotification: true },
+ { id: 'ping', label: 'پینگ', to: '/ping', hasNotification: true },
+ { id: 'security', label: 'حراست', to: '/security', hasNotification: false },
+ { id: 'tasks', label: 'وظایف', to: '/tasks', hasNotification: false },
+ { id: 'calendar', label: 'تقویم', to: '/calendar', hasNotification: false },
+ { id: 'processes', label: 'فرایندها', to: '/processes', hasNotification: false },
+ { id: 'chat', label: 'گفتگو', to: '/chat', hasNotification: true },
+ { id: 'reports', label: 'گزارش‌ها', to: '/reports', hasNotification: false },
+ { id: 'settings', label: 'تنظیمات', to: '/settings', hasNotification: false },
+ { id: 'archive', label: 'بایگانی', to: '/archive', hasNotification: false },
+]);
 </script>
 
 <template>
-  <div class="rounded-md border-solid border-neutral-500 border-2 flex items-center justify-between px-3 py-1">
-    <div class="flex">
-      <router-link to="/announcement" class="cursor-pointer transition-all duration-150 hover:text-blue-500" :class="{ 'text-blue-500 font-bold': activePage === 'announcement' }">
-        اطلاعیه
-      </router-link>
-      <div class="bg-red-600 h-2 w-2 rounded-full -mt-1"></div>
-    </div>
-    <div class="flex">
-      <router-link to="/ping" class="cursor-pointer transition-all duration-150 hover:text-blue-500" :class="{ 'text-blue-500 font-bold': activePage === 'ping' }">
-        پینگ
-      </router-link>
-      <div class="bg-red-600 h-2 w-2 rounded-full -mt-1"></div>
-    </div>
-    <div>
-      <router-link to="/security" class="cursor-pointer transition-all duration-150 hover:text-blue-500" :class="{ 'text-blue-500 font-bold': activePage === 'security' }">
-        حراست
-      </router-link>
-    </div>
-    <div>
-      <router-link to="/" class="cursor-pointer transition-all duration-150 hover:text-blue-500">اطلاعیه۲</router-link>
-    </div>
-    <div class="flex">
-      <router-link to="/" class="cursor-pointer transition-all duration-150 hover:text-blue-500">اطلاعیه۳</router-link>
-      <div class="bg-red-600 h-2 w-2 rounded-full -mt-1"></div>
-    </div>
-    <div>
-      <router-link to="/" class="cursor-pointer transition-all duration-150 hover:text-blue-500">اطلاعیه۴</router-link>
-    </div>
-    <div>
-      <router-link to="/" class="cursor-pointer transition-all duration-150 hover:text-blue-500">اطلاعیه۵</router-link>
-    </div>
-    <div>
-      <router-link to="/" class="cursor-pointer transition-all duration-150 hover:text-blue-500">اطلاعیه۶</router-link>
-    </div>
-    <div>
-      <router-link to="/" class="cursor-pointer transition-all duration-150 hover:text-blue-500">اطلاعیه۷</router-link>
-    </div>
+  <div class="flex items-center justify-center bg-blue-600 rounded-lg">
+    <div v-for="item in menuItems" :key="item.id">
+   <router-link
+    :to="item.to"
+    class="relative text-white text-sm py-3 px-4 block transition-colors duration-200"
+    :class="{
+     'hover:bg-blue-700': activePage !== item.id, // هاور فقط برای آیتم‌های غیرفعال
+     '!bg-blue-800 font-bold': activePage === item.id, // استایل آیتم فعال
+    }"
+   >
+    {{ item.label }}
+        <div
+     v-if="item.hasNotification"
+     class="absolute top-2.5 right-2 bg-red-500 h-2 w-2 rounded-full ring-1 ring-blue-600"
+         :class="{ '!ring-blue-800': activePage === item.id }"
+    ></div>
+   </router-link>
   </div>
+ </div>
 </template>
+
+<style scoped>
+/* برای اینکه گوشه‌های اولین و آخرین آیتم هم گرد بشن */
+.justify-center > div:first-child > a {
+  border-top-right-radius: 0.5rem; /* 8px */
+  border-bottom-right-radius: 0.5rem; /* 8px */
+}
+
+.justify-center > div:last-child > a {
+  border-top-left-radius: 0.5rem; /* 8px */
+  border-bottom-left-radius: 0.5rem; /* 8px */
+}
+</style>

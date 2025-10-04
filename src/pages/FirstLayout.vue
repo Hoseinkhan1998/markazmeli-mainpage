@@ -7,7 +7,7 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 import Dashboards from "../components/Dashboards.vue";
 import LastPing from "../components/LastPing.vue";
 
-const layout = ref("grid3");
+const layout = ref("grid");
 
 // شورتکات‌ها: Alt + Shift + 1/2
 const handleKeydown = (event) => {
@@ -20,7 +20,7 @@ const handleKeydown = (event) => {
         break;
       case "F":
         event.preventDefault();
-        layout.value = "grid3";
+        layout.value = "grid2";
         break;
     }
   }
@@ -53,58 +53,138 @@ const cards = ref([
   },
 ]);
 
+const featuredNews = {
+  main: {
+    title: "گزارشی از عملکرد کارگروه راهبری پیامک‌های انبوه در جلسه اخیر مرکز ملی فضای مجازی ارائه شد",
+    img: "/images/img1.png",
+    category: "جلسات هیئت مدیره",
+  },
+  side: [
+    {
+      title: "تصویب ضوابط و مقررات جدید برای ارسال پیامک در شرایط اضطراری",
+      img: "/images/img2.png",
+      category: "اطلاعیه فنی",
+    },
+    {
+      title: "راه‌اندازی پورتال کارگروه و بخش دریافت گزارش‌های مردمی",
+      img: "/images/img3.png",
+      category: "اخبار سازمان",
+    },
+  ],
+};
+
 const router = useRouter();
 </script>
 <template>
   <div class="bg-white h-full rounded-lg p-3">
     <div class="flex flex-col gap-5">
-      <div class=" px-5">
-      <Menu />
+      <div class="px-5">
+        <Menu />
       </div>
-      <div class="grid grid-cols-12 px-5 pb-20">
-        <!-- اسلایدر -->
-        <div class="border-2 col-span-9 border-neutral-300 rounded-lg">
-          <v-carousel dir="ltr" height="300" show-arrows="hover" cycle hide-delimiter-background>
-            <v-carousel-item dir="rtl" v-for="card in cards" :key="card">
-              <div class="w-full p-3 !grid !grid-cols-12 gap-4">
-                <p class="!col-span-8">{{ card.title }}</p>
-                <div class="!col-span-4 flex justify-end">
-                  <img :src="card.img" :alt="card.img" class="h-[270px] w-[400px] rounded-lg" />
+      <div class="flex flex-col px-5">
+        <div v-if="layout === 'grid'" class="grid grid-cols-12 gap-x-5">
+          <div class="col-span-9 grid grid-cols-3 gap-6">
+            <div class="col-span-2 group cursor-pointer">
+              <div class="overflow-hidden rounded-xl">
+                <img :src="featuredNews.main.img" alt="Main news" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
+              </div>
+              <div class="mt-3">
+                <span class="text-sm font-semibold text-blue-600">{{ featuredNews.main.category }}</span>
+                <h2 class="text-2xl font-bold text-gray-800 mt-1 group-hover:text-blue-600 transition-colors">
+                  {{ featuredNews.main.title }}
+                </h2>
+              </div>
+            </div>
+
+            <div class="col-span-1 flex flex-col gap-6">
+              <div v-for="item in featuredNews.side" :key="item.title" class="group cursor-pointer">
+                <div class="overflow-hidden rounded-xl">
+                  <img :src="item.img" alt="Side news" class="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <div class="mt-2">
+                  <span class="text-xs font-semibold text-blue-600">{{ item.category }}</span>
+                  <h3 class="text-md font-semibold text-gray-800 leading-relaxed group-hover:text-blue-600 transition-colors">
+                    {{ item.title }}
+                  </h3>
                 </div>
               </div>
-            </v-carousel-item>
-          </v-carousel>
+            </div>
+          </div>
+
+          <div class="col-span-3 flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-lg h-full border- border-gray-200">
+            <img src="/images/profile.png" alt="profile" class="rounded-full h-60 w-60 ring-4 ring-gray-400" />
+            <p class="text-center mt-4">
+              <span class="font-bold text-2xl text-gray-800">محمد حسین ولیخانی</span><br />
+              <span class="text-gray-500 mt-1">کارشناس اداره تحول</span>
+            </p>
+            <p class="text-sm text-gray-400 mt-4">معاونت توسعه و برنامه ریزی</p>
+          </div>
         </div>
-        <div class="col-span-1"></div>
-        <!-- پروفایل -->
-        <div class="col-span-2 border-2 border-neutral-300 rounded-lg relative flex flex-col items-center p-3">
-          <img src="/images/profile.png" alt="aks" class="rounded-xl h-40 w-40 ring-2 ring-neutral-400 bg-center bg-cover" />
-          <p class="text-center mt-2">
-            <span class="font-semibold text-lg">محمد حسین ولیخانی</span><br />
-            <span class="text-xs text-gray-600">کارشناس اداره تحول</span>
-          </p>
-          <p class="absolute bottom-2">معاونت توسعه و برنامه ریزی</p>
+
+        <div v-if="layout === 'grid2'" class="grid grid-cols-12 gap-x-5">
+          <div class="col-span-9 relative rounded-2xl overflow-hidden h-[450px] group cursor-pointer">
+            <img :src="featuredNews.main.img" alt="Hero Image" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+
+            <div class="absolute bottom-0 right-0 p-8 text-white">
+              <span class="text-sm font-semibold bg-blue-600 px-3 py-1 rounded-md">{{ featuredNews.main.category }}</span>
+              <h2 class="text-3xl font-bold mt-4 leading-tight">
+                {{ featuredNews.main.title }}
+              </h2>
+            </div>
+          </div>
+
+          <div class="col-span-3 flex flex-col items-center justify-center p-6 bg-gray-50 rounded-2xl border border-gray-200 h-[450px]">
+            <div class="w-4/5 aspect-square rounded-2xl overflow-hidden shadow-lg">
+              <img src="/images/profile.png" alt="profile" class="w-full h-full object-cover" />
+            </div>
+            <div class="text-center mt-6">
+              <h3 class="font-bold text-2xl text-gray-800">محمد حسین ولیخانی</h3>
+              <p class="text-md text-gray-500 mt-2">کارشناس ارشد اداره تحول دیجیتال</p>
+              <p class="text-sm text-gray-400 mt-4">معاونت توسعه و برنامه ریزی</p>
+            </div>
+          </div>
         </div>
-        <!-- کار های من -->
-        <div class="col-span-full text-xl font-semibold mt-10">کار های من</div>
-        <div v-if="layout === 'grid'" id="divider" class=" mt-2"></div>
-        <div class="col-span-full mt-5 px-5">
-          <MyWork />
-        </div>
-        <div class="col-span-full text-xl font-semibold mt-10">جدیدترین اطلاعیه ها</div>
-        <div v-if="layout === 'grid'" id="divider" class=" mt-2"></div>
-        <div class="col-span-full mt-5 px-5">
-          <LastAnnouncement />
-        </div>
-        <div class="col-span-full text-xl font-semibold mt-10">جدیدترین داشبورد ها</div>
-        <div v-if="layout === 'grid'" id="divider" class=" mt-2"></div>
-        <div class="col-span-full mt-5 px-5">
-          <Dashboards />
-        </div>
-        <div class="col-span-full text-xl font-semibold mt-10">جدیدترین ها در پینگ</div>
-        <div v-if="layout === 'grid'" id="divider" class=" mt-2"></div>
-        <div class="col-span-full mt-5 px-5">
-          <LastPing />
+
+        <div class="col-span-full grid grid-cols-12 pb-10">
+          <!-- کار های من -->
+          <div class="col-span-full flex items-center justify-center gap-x-3 py-5">
+            <div class="w-full h-[2px] bg-gray-200"></div>
+            <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
+            <div class="w-full h-[2px] bg-gray-200"></div>
+          </div>
+          <div class="col-span-full text-xl font-semibold">کار های من</div>
+          <div class="col-span-full mt-5 px-5">
+            <MyWork />
+          </div>
+          <div class="col-span-full flex items-center justify-center gap-x-3 py-5">
+            <div class="w-full h-[2px] bg-gray-200"></div>
+            <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
+            <div class="w-full h-[2px] bg-gray-200"></div>
+          </div>
+          <div class="col-span-full text-xl font-semibold">جدیدترین اطلاعیه ها</div>
+          <div class="col-span-full mt-5 px-5">
+            <LastAnnouncement />
+          </div>
+          <div class="col-span-full flex items-center justify-center gap-x-3 py-5">
+            <div class="w-full h-[2px] bg-gray-200"></div>
+            <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
+            <div class="w-full h-[2px] bg-gray-200"></div>
+          </div>
+          <div class="col-span-full text-xl font-semibold">جدیدترین داشبورد ها</div>
+          <div class="col-span-full mt-5 px-5">
+            <Dashboards />
+          </div>
+          <div class="col-span-full flex items-center justify-center gap-x-3 py-5">
+            <div class="w-full h-[2px] bg-gray-200"></div>
+            <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
+            <div class="w-full h-[2px] bg-gray-200"></div>
+          </div>
+          <div class="col-span-full text-xl font-semibold">جدیدترین ها در پینگ</div>
+          <div class="col-span-full mt-5 px-5">
+            <LastPing />
+          </div>
         </div>
       </div>
     </div>

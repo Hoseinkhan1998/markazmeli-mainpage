@@ -112,7 +112,7 @@ const router = useRouter();
           v-for="card in filteredCards"
           :key="card.id"
           :to="{ name: 'ping-details', params: { id: card.id } }"
-          class="col-span-3 h-[400px] border-2 border-neutral-300 hover:bg-neutral-200 transition-all duration-300 cursor-pointer rounded-lg p-2 flex flex-col gap-2 relative">
+          class="col-span-3 h-[400px] border border-neutral-300 hover:bg-neutral-200 transition-all duration-300 cursor-pointer rounded-lg p-2 flex flex-col gap-2 relative">
           <video
             :src="card.previewSrc"
             :poster="card.poster"
