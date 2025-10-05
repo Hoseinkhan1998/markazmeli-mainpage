@@ -8,21 +8,20 @@ const layout = ref("list");
 // شورتکات‌ها: Alt + Shift + 1/2
 const handleKeydown = (event) => {
   // اگر کلیدهای Ctrl و Shift همزمان فشرده شده باشند
-  if (event.ctrlKey && event.shiftKey) {
-    switch (event.key) {
-      case "Q":
-        event.preventDefault();
-        layout.value = "list";
-        break;
-      case "E":
-        event.preventDefault();
-        layout.value = "grid";
-        break;
-      case "F":
-        event.preventDefault();
-        layout.value = "grid3";
-        break;
-    }
+  if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
+  switch (event.key) {
+    case "1":
+      event.preventDefault();
+      layout.value = "list";
+      break;
+    case "2":
+      event.preventDefault();
+      layout.value = "grid";
+      break;
+    case "3":
+      event.preventDefault();
+      layout.value = "compact";
+      break;
   }
 };
 
@@ -150,7 +149,7 @@ const router = useRouter();
             v-for="card in filteredCards"
             :key="card.id"
             class="grid grid-cols-12 gap-6 items-center p-5 border-b border-gray-200 hover:bg-blue-50/50 cursor-pointer transition-colors duration-300"
-            @click="router.push('/announcement-detail')">
+            @click="router.push({ name: 'AnnouncementDetails', params: { id: card.id } })">
             <div class="col-span-2">
               <img :src="card.img" alt="img" class="w-full h-32 object-cover rounded-lg" />
             </div>
@@ -181,7 +180,7 @@ const router = useRouter();
             v-for="card in filteredCards"
             :key="card.id"
             class="col-span-3 flex flex-col bg-white border border-gray-200 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer rounded-2xl overflow-hidden"
-            @click="router.push('/announcement-detail')">
+            @click="router.push({ name: 'AnnouncementDetails', params: { id: card.id } })">
             <img :src="card.img" alt="img" class="w-full h-56 object-cover" />
             <div class="p-5 flex flex-col flex-grow">
               <div class="flex items-center gap-x-3 text-xs text-gray-500 mb-2">
@@ -203,7 +202,7 @@ const router = useRouter();
         </div>
 
         <div v-if="layout === 'compact'" class="grid grid-cols-12 gap-8">
-          <div v-for="card in filteredCards" :key="card.id" class="col-span-6" @click="router.push('/announcement-detail')">
+          <div v-for="card in filteredCards" :key="card.id" class="col-span-6" @click="router.push({ name: 'AnnouncementDetails', params: { id: card.id } })">
             <div class="bg-gray-50 rounded-2xl p-2 shadow-lg hover:shadow-xl hover:bg-neutral-200 transition-all duration-300 cursor-pointer h-[150px]">
               <div class="grid grid-cols-5 gap-5">
                 <div class="col-span-1">

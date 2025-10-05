@@ -10,21 +10,23 @@ import LastPing from "../components/LastPing.vue";
 const layout = ref("grid");
 
 // شورتکات‌ها: Alt + Shift + 1/2
+// فقط با فشردن E یا F کار کنه
 const handleKeydown = (event) => {
-  // اگر کلیدهای Ctrl و Shift همزمان فشرده شده باشند
-  if (event.ctrlKey && event.shiftKey) {
-    switch (event.key) {
-      case "E":
-        event.preventDefault();
-        layout.value = "grid";
-        break;
-      case "F":
-        event.preventDefault();
-        layout.value = "grid2";
-        break;
-    }
+  // اگر کاربر در حال تایپ در input یا textarea بود، کاری نکن
+  if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
+
+  switch (event.key.toLowerCase()) {
+    case "7":
+      event.preventDefault();
+      layout.value = "grid";
+      break;
+    case "8":
+      event.preventDefault();
+      layout.value = "grid2";
+      break;
   }
 };
+
 
 onMounted(() => {
   window.addEventListener("keydown", handleKeydown);

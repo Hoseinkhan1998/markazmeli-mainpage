@@ -7,17 +7,16 @@ const layout = ref("grid3");
 // شورتکات‌ها: Alt + Shift + 1/2
 const handleKeydown = (event) => {
   // اگر کلیدهای Ctrl و Shift همزمان فشرده شده باشند
-  if (event.ctrlKey && event.shiftKey) {
-    switch (event.key) {
-      case "E":
-        event.preventDefault();
-        layout.value = "grid";
-        break;
-      case "F":
-        event.preventDefault();
-        layout.value = "grid3";
-        break;
-    }
+  if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
+  switch (event.key) {
+    case "1":
+      event.preventDefault();
+      layout.value = "grid";
+      break;
+    case "2":
+      event.preventDefault();
+      layout.value = "grid3";
+      break;
   }
 };
 
