@@ -6,8 +6,12 @@ import LastAnnouncement from "../components/LastAnnouncement.vue";
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import Dashboards from "../components/Dashboards.vue";
 import LastPing from "../components/LastPing.vue";
+import { Vue3Lottie } from "vue3-lottie";
+import MyAnimation from "../assets/animations/my-animation.json";
 
 const layout = ref("grid");
+
+const dialog = ref(false);
 
 // شورتکات‌ها: Alt + Shift + 1/2
 // فقط با فشردن E یا F کار کنه
@@ -24,9 +28,12 @@ const handleKeydown = (event) => {
       event.preventDefault();
       layout.value = "grid2";
       break;
+    case "0":
+      event.preventDefault();
+      dialog.value = true;
+      break;
   }
 };
-
 
 onMounted(() => {
   window.addEventListener("keydown", handleKeydown);
@@ -191,13 +198,75 @@ const router = useRouter();
       </div>
     </div>
   </div>
+
+  <v-dialog v-model="dialog" max-width="900">
+    <div class="grid justify-items-center items-center grid-cols-12">
+      <div class="col-span-3" @click="dialog = false">
+        <Vue3Lottie :animationData="MyAnimation" :height="300" :width="300" :loop="true" />
+      </div>
+      <div class="col-span-6 w-full flex flex-col bg-white rounded-lg">
+        <img src="/images/birthday.png" class="rounded-t-lg h-[250px] w-full" alt="" />
+
+        <div class="scallop-up"></div>
+
+        <div class="max-h-[400px] bg-[#369A7E] min-h-[200px] overflow-y-auto flex flex-col gap-3 text-white pt-4 px-3">
+          <div class="flex justify-between items-center">
+            <p>۰۷/۲۴</p>
+            <div class="flex items-center gap-1">
+              <p>محمد حسین ولیخانی</p>
+              <img src="/images/profile.png" class="h-8 w-8 rounded-full bg-cover bg-center" alt="" />
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <p>۰۷/۱۹</p>
+            <div class="flex items-center gap-1">
+              <p>جعفر ابراهیمی</p>
+              <img src="/images/profile.png" class="h-8 w-8 rounded-full bg-cover bg-center" alt="" />
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <p>۰۷/۲۴</p>
+            <div class="flex items-center gap-1">
+              <p>حسین مزینانی</p>
+              <img src="/images/profile.png" class="h-8 w-8 rounded-full bg-cover bg-center" alt="" />
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <p>۰۷/۱۴</p>
+            <div class="flex items-center gap-1">
+              <p>کیمیا شکرایی</p>
+              <img src="/images/profile.png" class="h-8 w-8 rounded-full bg-cover bg-center" alt="" />
+            </div>
+          </div>
+        </div>
+        <div class="scallop-down"></div>
+
+        <p class="text-center text-sm text-black">
+          در پناه الطاف الهی امیدواریم در سفر زندگی همیشه راهی برای شادی و رضایت بیابید و در پایان آرزویی نباشد که بدان دست پیدا نکرده باشید
+        </p>
+        <p class="text-center text-sm text-black mb-2">
+          لحظاتتون پر از عشق و امید<br />
+          روزتان متبرک بـه نگاه خدا
+        </p>
+      </div>
+      <div class="col-span-3 rotate-180" @click="dialog = false">
+        <Vue3Lottie :animationData="MyAnimation" :height="300" :width="300" :loop="true" />
+      </div>
+    </div>
+  </v-dialog>
 </template>
 
 <style scoped>
-#divider {
-  height: 2px;
-  width: 160%;
-  background: blue;
-  background: linear-gradient(90deg, hsl(0, 63%, 54%), hsl(0, 53%, 55%), hsl(0, 0%, 20%));
+.scallop-down {
+  height: 50px;
+  width: 100%;
+  background: -webkit-gradient(radial, 50% 0, 10, 50% 0, 40, from(#369a7e), color-stop(0.49, #369a7e), color-stop(0.51, #fff), to(white));
+  -webkit-background-size: 49px 100%;
+}
+
+.scallop-up {
+  height: 50px;
+  background: -webkit-gradient(radial, 50% 100%, 10, 50% 100%, 40, from(#369a7e), color-stop(0.49, #369a7e), color-stop(0.51, #fff), to(white));
+  -webkit-background-size: 49px 100%;
 }
 </style>
