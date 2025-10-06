@@ -1,26 +1,50 @@
 <script setup>
-import { ref, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import Menu from "../components/Menu.vue";
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+
+const layout = ref("list");
+
+// شورتکات‌ها: Alt + Shift + 1/2
+const handleKeydown = (event) => {
+  // اگر کلیدهای Ctrl و Shift همزمان فشرده شده باشند
+  if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
+  switch (event.key) {
+    case "1":
+      event.preventDefault();
+      layout.value = "list";
+      break;
+    case "2":
+      event.preventDefault();
+      layout.value = "grid";
+      break;
+    case "3":
+      event.preventDefault();
+      layout.value = "compact";
+      break;
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("keydown", handleKeydown);
+});
+
+// حذف شنونده رویداد برای جلوگیری از نشت حافظه
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeydown);
+});
 
 const route = useRoute();
 const router = useRouter();
 
-// --- بخش ۱: مدیریت وضعیت Carousel و Thumbnail ها ---
-
-// ایندکس اسلاید فعال در Carousel
 const currentSlide = ref(0);
-// آرایه‌ای برای نگهداری لیست عکس‌های Carousel
 const carouselImages = ref([]);
-// Ref برای دسترسی به المان DOM کانتینر Thumbnail ها
 const thumbnailContainer = ref(null);
-// Ref برای نگهداری المان‌های DOM هر Thumbnail (برای همگام‌سازی اسکرول)
 const thumbnailRefs = ref([]);
 
-// --- بخش ۲: منطق اسکرول با کشیدن موس (Drag-to-Scroll) ---
-
-const isDown = ref(false); // آیا کلیک موس فشرده شده؟
-const startX = ref(0); // نقطه شروع افقی کلیک
-const scrollLeft = ref(0); // موقعیت اولیه اسکرول
+const isDown = ref(false);
+const startX = ref(0);
+const scrollLeft = ref(0);
 
 // با کلیک موس، حالت کشیدن فعال می‌شود
 const startDrag = (e) => {
@@ -45,11 +69,17 @@ const onDrag = (e) => {
   thumbnailContainer.value.scrollLeft = scrollLeft.value - walk;
 };
 
-// --- بخش ۳: داده‌های اصلی و منطق کامپوننت ---
-
 // تابع برای تولید لیست عکس‌های Carousel برای هر اطلاعیه
 function generateCarouselImages(mainImg) {
   const allPossibleImages = [
+    "/images/img1.png",
+    "/images/img2.png",
+    "/images/img3.png",
+    "/images/img4.png",
+    "/images/img5.png",
+    "/images/img6.png",
+    "/images/img7.png",
+    "/images/img8.png",
     "/images/img1.png",
     "/images/img2.png",
     "/images/img3.png",
@@ -62,7 +92,7 @@ function generateCarouselImages(mainImg) {
   let images = [mainImg];
   let otherImages = allPossibleImages.filter((img) => img !== mainImg);
   // اضافه کردن ۷ عکس دیگر برای داشتن یک لیست بلند
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 12; i++) {
     if (otherImages.length > 0) {
       const randomIndex = Math.floor(Math.random() * otherImages.length);
       images.push(otherImages.splice(randomIndex, 1)[0]);
@@ -163,44 +193,94 @@ watch(
 <template>
   <div class="bg-white h-full rounded-lg p-6">
     <div v-if="selectedAnnouncement" class="grid grid-cols-12 gap-8">
-      <div class="col-span-8">
+      <div :class="layout === 'compact' ? 'col-span-9' : 'col-span-8'">
         <div class="flex flex-col gap-5">
-          <v-carousel :reverse="true" v-model="currentSlide" height="400" show-arrows="hover" hide-delimiters hide-delimiter-background class="rounded-2xl shadow-lg">
-            <v-carousel-item v-for="(image, index) in carouselImages" :key="index" :src="image" cover></v-carousel-item>
-          </v-carousel>
+          <div v-if="layout !== 'compact'">
+            <v-carousel
+              next-icon="mdi-chevron-left"
+              prev-icon="mdi-chevron-right"
+              :reverse="true"
+              v-model="currentSlide"
+              height="400"
+              show-arrows="hover"
+              hide-delimiters
+              hide-delimiter-background
+              class="rounded-2xl shadow-lg">
+              <v-carousel-item v-for="(image, index) in carouselImages" :key="index" :src="image" cover></v-carousel-item>
+            </v-carousel>
 
-          <div class="relative z-10 -mt-20 px-5">
-            <div
-              ref="thumbnailContainer"
-              @mousedown="startDrag"
-              @mouseleave="stopDrag"
-              @mouseup="stopDrag"
-              @mousemove="onDrag"
-              class="flex items-center gap-3 overflow-x-auto pb-3 cursor-grab active:cursor-grabbing scrollbar-hide">
+            <div v-if="layout === 'grid'" class="relative z-10 -mt-20 px-5">
               <div
-                v-for="(image, index) in carouselImages"
-                :key="`thumb-${index}`"
-                :ref="
-                  (el) => {
-                    if (el) thumbnailRefs[index] = el;
-                  }
-                "
-                @click="currentSlide = index"
-                class="flex-shrink-0 cursor-pointer rounded-lg overflow-hidden transition-all duration-300 select-none"
-                :class="{
-                  'ring-4 ring-white shadow-2xl scale-110': currentSlide === index,
-                  'opacity-60 hover:opacity-100': currentSlide !== index,
-                }">
-                <img :src="image" :alt="`Thumbnail ${index + 1}`" class="w-28 h-24 object-cover pointer-events-none" />
+                ref="thumbnailContainer"
+                @mousedown="startDrag"
+                @mouseleave="stopDrag"
+                @mouseup="stopDrag"
+                @mousemove="onDrag"
+                class="flex items-center gap-3 overflow-x-auto pb-3 cursor-grab active:cursor-grabbing scrollbar-hide">
+                <div
+                  v-for="(image, index) in carouselImages"
+                  :key="`thumb-${index}`"
+                  :ref="
+                    (el) => {
+                      if (el) thumbnailRefs[index] = el;
+                    }
+                  "
+                  @click="currentSlide = index"
+                  class="flex-shrink-0 cursor-pointer rounded-lg overflow-hidden transition-all duration-300 select-none"
+                  :class="{
+                    'ring-4 ring-white shadow-2xl scale-110': currentSlide === index,
+                    'opacity-60 hover:opacity-100': currentSlide !== index,
+                  }">
+                  <img :src="image" class="object-cover pointer-events-none" :class="{ 'w-28 h-24': currentSlide === index, 'w-16 h-16': currentSlide !== index }" />
+                </div>
               </div>
             </div>
           </div>
 
-          <h1 class="text-4xl font-extrabold text-gray-800 leading-tight mt-5">
+          <div v-if="layout === 'compact'" class="grid grid-cols-12 gap-2">
+            <div class="col-span-2">
+              <div class="h-[400px] pe-2 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                <div class="grid grid-cols-2 gap-2">
+                  <div
+                    v-for="(image, index) in carouselImages"
+                    :key="`thumb-compact-${index}`"
+                    :ref="
+                      (el) => {
+                        if (el) thumbnailRefs[index] = el;
+                      }
+                    "
+                    @click="currentSlide = index"
+                    class="cursor-pointer rounded-lg overflow-hidden transition-all duration-300 aspect-square"
+                    :class="{
+                      'ring-4 ring-blue-500 shadow-xl': currentSlide === index,
+                      'opacity-50 hover:opacity-100': currentSlide !== index,
+                    }">
+                    <img :src="image" class="w-full h-full object-cover" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-9">
+              <v-carousel
+                next-icon="mdi-chevron-left"
+                prev-icon="mdi-chevron-right"
+                :reverse="true"
+                v-model="currentSlide"
+                height="400"
+                show-arrows="hover"
+                hide-delimiters
+                hide-delimiter-background
+                class="rounded-2xl shadow-lg">
+                <v-carousel-item v-for="(image, index) in carouselImages" :key="index" :src="image" cover></v-carousel-item>
+              </v-carousel>
+            </div>
+          </div>
+
+          <h1 class="text-2xl font-extrabold text-gray-800 leading-tight mt-5">
             {{ selectedAnnouncement.title }}
           </h1>
 
-          <div class="flex items-center gap-x-6 text-gray-500 border-y border-gray-200 py-3">
+          <div class="flex items-center gap-x-6 text-sm text-gray-500 border-y border-gray-200 py-3">
             <div class="flex items-center gap-x-2">
               <v-icon class="!text-xl">mdi-domain</v-icon>
               <span class="font-semibold">{{ selectedAnnouncement.department }}</span>
@@ -215,14 +295,14 @@ watch(
             </div>
           </div>
 
-          <p class="text-lg text-gray-700 leading-loose whitespace-pre-line">
+          <p class="text-sm text-gray-700 leading-loose whitespace-pre-line">
             {{ selectedAnnouncement.description }}
           </p>
         </div>
       </div>
 
-      <div class="col-span-4">
-        <div class="sticky top-6 flex flex-col gap-4">
+      <div :class="layout === 'compact' ? 'col-span-3' : 'col-span-4'">
+        <div class="sticky top-6 flex flex-col gap-2">
           <h2 class="text-xl font-bold text-gray-800 pb-2 border-b-2 border-blue-500">سایر اطلاعیه‌ها</h2>
           <div
             v-for="card in otherAnnouncements"
@@ -232,7 +312,7 @@ watch(
             <img :src="card.img" :alt="card.title" class="w-24 h-24 object-cover rounded-lg flex-shrink-0" />
             <div class="flex flex-col">
               <p class="text-xs text-gray-500">{{ card.department }}</p>
-              <h3 class="font-semibold text-gray-800 mt-1 line-clamp-3">
+              <h3 class="font-semibold text-gray-800 mt-1 line-clamp-2">
                 {{ card.title }}
               </h3>
             </div>
