@@ -10,6 +10,7 @@ import { Vue3Lottie } from "vue3-lottie";
 import MyAnimation from "../assets/animations/my-animation.json";
 
 const layout = ref("grid");
+const dialogtext = ref("first");
 
 const dialog = ref(false);
 
@@ -28,9 +29,14 @@ const handleKeydown = (event) => {
       event.preventDefault();
       layout.value = "grid2";
       break;
+    case "9":
+      event.preventDefault();
+      dialogtext.value = "two";
+      break;
     case "0":
       event.preventDefault();
       dialog.value = true;
+      dialogtext.value = "first";
       break;
   }
 };
@@ -43,24 +49,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("keydown", handleKeydown);
 });
-
-const cards = ref([
-  {
-    title:
-      "در این جلسه گزارشی از عملکرد کارگروه مذکور در محورهایی چون فرآیندهای اعطای مجوز به شرکت های ارائه دهنده خدمات پیامک انبوه، تصویب ضوابط محتوایی پیام رسانی، تصویب مقررات ارسال پیامک در زمان های غیرعادی و اضطراری، تصویب مقررات اجرایی تامین ایمنی و سلامت ارسال پیامک انبوه، پیاده سازی سامانه برخط نظارت پس از انتشار، راه اندازی پورتال کارگروه و ایجاد بخش دریافت گزارش های مردمی ارائه شد.",
-    img: "/images/img3.png",
-  },
-  {
-    title:
-      "در این جلسه گزارشی از عملکرد کارگروه مذکور در محورهایی چون فرآیندهای اعطای مجوز به شرکت های ارائه دهنده خدمات پیامک انبوه، تصویب ضوابط محتوایی پیام رسانی، تصویب مقررات ارسال پیامک در زمان های غیرعادی و اضطراری، تصویب مقررات اجرایی تامین ایمنی و سلامت ارسال پیامک انبوه، پیاده سازی سامانه برخط نظارت پس از انتشار، راه اندازی پورتال کارگروه و ایجاد بخش دریافت گزارش های مردمی ارائه شد.در این جلسه گزارشی از عملکرد کارگروه مذکور در محورهایی چون فرآیندهای اعطای مجوز به شرکت های ارائه دهنده خدمات پیامک انبوه، تصویب ضوابط محتوایی پیام رسانی، تصویب مقررات ارسال پیامک در زمان های غیرعادی و اضطراری، تصویب مقررات اجرایی تامین ایمنی و سلامت ارسال پیامک انبوه، پیاده سازی سامانه برخط نظارت پس از انتشار، راه اندازی پورتال کارگروه و ایجاد بخش دریافت گزارش های مردمی ارائه شد.",
-    img: "/images/img1.png",
-  },
-  {
-    title:
-      "در این جلسه گزارشی از عملکرد کارگروه مذکور در محورهایی چون فرآیندهای اعطای مجوز به شرکت های ارائه دهنده خدمات پیامک انبوه، تصویب ضوابط محتوایی پیام رسانی، تصویب مقررات ارسال پیامک در زمان های غیرعادی و اضطراری، تصویب مقررات اجرایی تامین ایمنی و سلامت ارسال پیامک انبوه، پیاده سازی سامانه برخط نظارت پس از انتشار، راه اندازی پورتال کارگروه و ایجاد بخش دریافت گزارش های مردمی ارائه شد.در این جلسه گزارشی از عملکرد کارگروه مذکور در محورهایی چون فرآیندهای اعطای مجوز به شرکت های ارائه دهنده خدمات پیامک انبوه، تصویب ضوابط محتوایی پیام رسانی، تصویب مقررات ارسال پیامک در زمان های غیرعادی و اضطراری، تصویب مقررات اجرایی تامین ایمنی و سلامت ارسال پیامک انبوه، پیاده سازی سامانه برخط نظارت پس از انتشار، راه اندازی پورتال کارگروه و ایجاد بخش دریافت گزارش های مردمی ارائه شد.",
-    img: "/images/img2.png",
-  },
-]);
 
 const featuredNews = {
   main: {
@@ -233,7 +221,7 @@ const router = useRouter();
 
         <div class="scallop-up"></div>
 
-        <div class="max-h-[400px] bg-[#369A7E] min-h-[200px] overflow-y-auto flex flex-col gap-3 text-white pt-4 px-3">
+        <div v-if="dialogtext === 'first'" class="max-h-[400px] bg-[#369A7E] min-h-[200px] overflow-y-auto flex flex-col gap-3 text-white pt-4 px-3">
           <div class="flex justify-between items-center">
             <p>۰۷/۲۴</p>
             <div class="flex items-center gap-1">
@@ -263,6 +251,10 @@ const router = useRouter();
             </div>
           </div>
         </div>
+        <div v-if="dialogtext === 'two'" class="max-h-[400px] bg-[#369A7E] min-h-[200px] overflow-y-auto flex flex-col gap-3 text-white pt-4 px-3">
+          <p class=" text-center text-3xl leading-loose font-semibold">محمد حسین ولیخانی عزیز زادروزتان خجسته باد</p>
+        </div>
+
         <div class="scallop-down"></div>
 
         <p class="text-center text-sm text-black">
