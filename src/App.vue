@@ -80,10 +80,10 @@ const menuItems = [
             <div class="flex items-center gap-5">
               <div>{{ time }}</div>
               <div class="font-semibold">{{ date }}</div>
-              <div class="text-white flex justify-center items-center rounded-full border-2 border-solid border-white">
+              <!-- <div class="text-white flex justify-center items-center rounded-full border-2 border-solid border-white">
                 <v-icon>mdi-chevron-down</v-icon>
-              </div>
-              <img src="/public/images/profile.png" alt="profile" class="rounded-full ring-2 ring-white h-10 w-10 bg-center bg-cover" />
+              </div> -->
+              <!-- <img src="/public/images/profile.png" alt="profile" class="rounded-full ring-2 ring-white h-10 w-10 bg-center bg-cover" /> -->
             </div>
           </div>
 

@@ -93,13 +93,14 @@ const router = useRouter();
       <div class="flex flex-col px-5">
         <div v-if="layout === 'grid'" class="grid grid-cols-12 gap-x-5">
           <div class="col-span-9 grid grid-cols-3 gap-6">
-            <div class="col-span-2 group cursor-pointer">
-              <div class="overflow-hidden rounded-xl">
-                <img :src="featuredNews.main.img" alt="Main news" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
-              </div>
-              <div class="mt-3">
-                <span class="text-sm font-semibold text-blue-600">{{ featuredNews.main.category }}</span>
-                <h2 class="text-2xl font-bold text-gray-800 mt-1 group-hover:text-blue-600 transition-colors">
+            <div class="col-span-2 relative rounded-xl overflow-hidden h-[425px] group cursor-pointer">
+              <img :src="featuredNews.main.img" alt="Hero Image" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+
+              <div class="absolute bottom-0 right-0 p-8 text-white">
+                <span class="text-sm font-semibold bg-blue-600 px-3 py-1 rounded-md">{{ featuredNews.main.category }}</span>
+                <h2 class="text-3xl font-bold mt-4 leading-tight">
                   {{ featuredNews.main.title }}
                 </h2>
               </div>
@@ -107,12 +108,12 @@ const router = useRouter();
 
             <div class="col-span-1 flex flex-col gap-6">
               <div v-for="item in featuredNews.side" :key="item.title" class="group cursor-pointer">
-                <div class="overflow-hidden rounded-xl">
-                  <img :src="item.img" alt="Side news" class="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300" />
+                <div class="overflow-hidden rounded-lg">
+                  <img :src="item.img" alt="Side news" class="w-full h-[142px] object-cover group-hover:scale-105 transition-transform duration-300" />
                 </div>
                 <div class="mt-2">
                   <span class="text-xs font-semibold text-blue-600">{{ item.category }}</span>
-                  <h3 class="text-md font-semibold text-gray-800 leading-relaxed group-hover:text-blue-600 transition-colors">
+                  <h3 class="text-md font-semibold truncate text-gray-800 leading-relaxed group-hover:text-blue-600 transition-colors">
                     {{ item.title }}
                   </h3>
                 </div>
@@ -120,13 +121,36 @@ const router = useRouter();
             </div>
           </div>
 
-          <div class="col-span-3 flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-lg h-full border- border-gray-200">
-            <img src="/images/profile.png" alt="profile" class="rounded-full h-60 w-60 ring-4 ring-gray-400" />
-            <p class="text-center mt-4">
-              <span class="font-bold text-2xl text-gray-800">محمد حسین ولیخانی</span><br />
+          <div class="col-span-3 flex flex-col items-center p-2 bg-white rounded-2xl shadow-lg h-full border- border-gray-200">
+            <img src="/images/profile.png" alt="profile" class="rounded-full h-56 w-56 ring-4 ring-gray-400" />
+            <p class="text-center mt-2">
+              <span class="font-bold text-xl text-gray-800">محمد حسین ولیخانی</span><br />
               <span class="text-gray-500 mt-1">کارشناس اداره تحول</span>
             </p>
-            <p class="text-sm text-gray-400 mt-4">معاونت توسعه و برنامه ریزی</p>
+            <p class="text-sm text-gray-400 mt-2">معاونت توسعه و برنامه ریزی</p>
+            <!-- action buttons -->
+            <div class="flex gap-2 items-center mt-2">
+              <div class="cursor-pointer bg-gray-100 p-1 rounded-lg hover:bg-gray-200 transition">
+                <img src="/images/rahkaran.png" class="w-7 h-7 rounded-lg" alt="" />
+                <v-tooltip activator="parent" location="bottom">راهکاران</v-tooltip>
+              </div>
+              <div class="cursor-pointer bg-gray-100 p-1 rounded-lg hover:bg-gray-200 transition">
+                <img src="/images/pargar.png" class="w-7 h-7 rounded-lg" alt="" />
+                <v-tooltip activator="parent" location="bottom">پرگار</v-tooltip>
+              </div>
+              <div class="cursor-pointer bg-gray-100 p-1 rounded-lg hover:bg-gray-200 transition">
+                <img src="/images/rahkaran.png" class="w-7 h-7 rounded-lg" alt="" />
+                <v-tooltip activator="parent" location="bottom">راهکاران</v-tooltip>
+              </div>
+              <div class="cursor-pointer bg-gray-100 p-1 rounded-lg hover:bg-gray-200 transition">
+                <img src="/images/pargar.png" class="w-7 h-7 rounded-lg" alt="" />
+                <v-tooltip activator="parent" location="bottom">پرگار</v-tooltip>
+              </div>
+            </div>
+            <div
+              class="w-10/12 py-1 mt-4 font-semibold bg-blue-300 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer rounded-3xl border-2 border-neutral-300 flex justify-center items-center">
+              تنظیمات پروفایل
+            </div>
           </div>
         </div>
 
