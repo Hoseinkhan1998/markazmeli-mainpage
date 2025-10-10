@@ -1,32 +1,33 @@
+<script setup>
+const dashboards = [
+  {
+    name: "گزارش درخواست فناوری اطلاعات",
+    description: "A dashboard to monitor sales performance and trends.",
+    image: "https://via.placeholder.com/150",
+    link: "/dashboards/sales",
+  },
+  {
+    name: "Marketing Dashboard",
+    description: "A dashboard to track marketing campaigns and ROI.",
+    image: "https://via.placeholder.com/150",
+    link: "/dashboards/marketing",
+  },
+  {
+    name: "Finance Dashboard",
+    description: "A dashboard to oversee financial metrics and reports.",
+    image: "https://via.placeholder.com/150",
+    link: "/dashboards/finance",
+  },
+];
+</script>
 <template>
-  <div class="w-full h-28 flex text-lg font-semibold border-2 border-neutral-300 rounded-lg justify-center items-center animated-bg">
-    Dashboards Component
+  <div class="grid grid-cols-12 gap-x-3">
+    <div class="flex col-span-full items-center justify-between pe-10">
+      <div class="text-xl border-r-4 border-red-600 pr-2 font-semibold">داشبورد‌های پر کاربرد</div>
+      <div class="but text-blue-500"><span>مشاهده همه</span></div>
+    </div>    
+    <div class="col-span-3"></div>
   </div>
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
-<style>
-@keyframes colorChange {
-  0% {
-    background-color: #ccf8cc; /* سبز خیلی ملایم */
-  }
-  33% {
-    background-color: #f9d0cb; /* قرمز خیلی ملایم */
-  }
-  66% {
-    background-color: #ffffc4; /* زرد خیلی ملایم */
-  }
-  100% {
-    background-color: #dcfddc; /* برگشت به سبز */
-  }
-}
-
-.animated-bg {
-  animation: colorChange 4s ease-in-out infinite;
-}
-</style>
+<style scoped></style>

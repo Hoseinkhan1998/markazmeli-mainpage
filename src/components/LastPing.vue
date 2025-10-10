@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @keyframes colorChange {
   0% {
     background-color: #bfccfc; /* سبز خیلی ملایم */

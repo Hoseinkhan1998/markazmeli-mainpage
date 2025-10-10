@@ -1,13 +1,16 @@
 <script setup>
 import { useRouter } from "vue-router";
 import Menu from "../components/Menu.vue";
-import MyWork from "../components/MyWork.vue";
+// import MyWork from "../components/MyWork.vue";
 import LastAnnouncement from "../components/LastAnnouncement.vue";
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import Dashboards from "../components/Dashboards.vue";
 import LastPing from "../components/LastPing.vue";
 import { Vue3Lottie } from "vue3-lottie";
 import MyAnimation from "../assets/animations/my-animation.json";
+import MyDesk from "../components/MyDesk.vue";
+import Headline from "../components/Headline.vue";
+// import MyWork from "../components/MyWork.vue";
 
 const layout = ref("grid");
 const dialogtext = ref("first");
@@ -24,10 +27,6 @@ const handleKeydown = (event) => {
     case "7":
       event.preventDefault();
       layout.value = "grid";
-      break;
-    case "8":
-      event.preventDefault();
-      layout.value = "grid2";
       break;
     case "9":
       event.preventDefault();
@@ -51,11 +50,23 @@ onUnmounted(() => {
 });
 
 const featuredNews = {
-  main: {
-    title: "گزارشی از عملکرد کارگروه راهبری پیامک‌های انبوه در جلسه اخیر مرکز ملی فضای مجازی ارائه شد",
-    img: "/images/img1.png",
-    category: "جلسات هیئت مدیره",
-  },
+  main: [
+    {
+      title: "گزارش عملکرد کارگروه پیامک‌های انبوه در جلسه هیئت مدیره مرکز ملی فضای مجازی",
+      img: "/images/img1.png",
+      category: "جلسات هیئت مدیره",
+    },
+    {
+      title: "ارزیابی عملکرد کارگروه پیامک‌های انبوه در مرکز ملی فضای مجازی",
+      img: "/images/img2.png",
+      category: "جلسه ارزیابی عملکرد",
+    },
+    {
+      title: "بررسی عملکرد کارگروه پیامک‌های انبوه در جلسه شورای مدیران مرکز ملی فضای مجازی",
+      img: "/images/img3.png",
+      category: "جلسات شورای مدیران",
+    },
+  ],
   side: [
     {
       title: "تصویب ضوابط و مقررات جدید برای ارسال پیامک در شرایط اضطراری",
@@ -71,27 +82,48 @@ const featuredNews = {
 };
 
 const router = useRouter();
+
+const showToast = ref(false);
+let toastTimeout = null;
+
+const triggerToast = () => {
+  clearTimeout(toastTimeout); // پاک کردن تایمر قبلی اگر وجود داشت
+  showToast.value = true;
+  toastTimeout = setTimeout(() => {
+    showToast.value = false;
+  }, 5000); // مخفی شدن بعد از ۵ ثانیه
+};
 </script>
 <template>
-  <div class="bg-white h-full rounded-lg p-3">
+  <div class="bg-white h-full rounded-lg">
     <div class="flex flex-col gap-5">
-      <div class="px-5">
+      <div class="p-3">
+        <div class="toast toast-top toast-end z-50">
+          <transition name="slide-left">
+            <div v-if="showToast" class="alert alert-info shadow-lg">
+              <span>این یک پیام آزمایشی است!</span>
+            </div>
+          </transition>
+        </div>
+
         <Menu />
       </div>
-      <div class="flex flex-col px-5">
-        <div v-if="layout === 'grid'" class="grid grid-cols-12 gap-x-5">
+      <div class="flex flex-col pb-10">
+        <div v-if="layout === 'grid'" class="grid grid-cols-12 gap-x-5 px-3">
           <div class="col-span-9 grid grid-cols-3 gap-6">
             <div class="col-span-2 relative rounded-xl overflow-hidden h-[425px] group cursor-pointer">
-              <img :src="featuredNews.main.img" alt="Hero Image" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-
-              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
-
-              <div class="absolute bottom-0 right-0 p-8 text-white">
-                <span class="text-sm font-semibold bg-blue-600 px-3 py-1 rounded-md">{{ featuredNews.main.category }}</span>
-                <h2 class="text-3xl font-bold mt-4 leading-tight">
-                  {{ featuredNews.main.title }}
-                </h2>
-              </div>
+              <v-carousel next-icon="mdi-chevron-left" prev-icon="mdi-chevron-right" show-arrows="hover" :reverse="true" hide-delimiter-background cycle height="425">
+                <v-carousel-item v-for="(item, index) in featuredNews.main" :key="index">
+                  <img :src="item.img" alt="Hero Image" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+                  <div class="absolute bottom-0 right-0 p-8 text-white">
+                    <span class="text-sm font-semibold bg-blue-600 px-3 py-1 rounded-md">{{ item.category }}</span>
+                    <h2 class="text-3xl font-bold mt-4 leading-tight">
+                      {{ item.title }}
+                    </h2>
+                  </div>
+                </v-carousel-item>
+              </v-carousel>
             </div>
 
             <div class="col-span-1 flex flex-col gap-6">
@@ -142,58 +174,27 @@ const router = useRouter();
           </div>
         </div>
 
-        <div v-if="layout === 'grid2'" class="grid grid-cols-12 gap-x-5">
-          <div class="col-span-9 relative rounded-2xl overflow-hidden h-[450px] group cursor-pointer">
-            <img :src="featuredNews.main.img" alt="Hero Image" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
-
-            <div class="absolute bottom-0 right-0 p-8 text-white">
-              <span class="text-sm font-semibold bg-blue-600 px-3 py-1 rounded-md">{{ featuredNews.main.category }}</span>
-              <h2 class="text-3xl font-bold mt-4 leading-tight">
-                {{ featuredNews.main.title }}
-              </h2>
-            </div>
+        <div class="col-span-full mt-10 grid grid-cols-12">
+          <div class="col-span-3 bg-neutral-100 border flex flex-col shadow-md shadow-neutral-200 p-3">
+            <Headline />
           </div>
 
-          <div class="col-span-3 flex flex-col items-center justify-center p-6 bg-gray-50 rounded-2xl border border-gray-200 h-[450px]">
-            <div class="w-4/5 aspect-square rounded-2xl overflow-hidden shadow-lg">
-              <img src="/images/profile.png" alt="profile" class="w-full h-full object-cover" />
-            </div>
-            <div class="text-center mt-6">
-              <h3 class="font-bold text-2xl text-gray-800">محمد حسین ولیخانی</h3>
-              <p class="text-md text-gray-500 mt-2">کارشناس ارشد اداره تحول دیجیتال</p>
-              <p class="text-sm text-gray-400 mt-4">معاونت توسعه و برنامه ریزی</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-span-full grid grid-cols-12 pb-10">
           <!-- کار های من -->
-          <div class="col-span-full flex items-center justify-center gap-x-3 py-5">
-            <div class="w-full h-[2px] bg-gray-200"></div>
-            <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
-            <div class="w-full h-[2px] bg-gray-200"></div>
-          </div>
-          <div class="col-span-full text-xl font-semibold">کار های من</div>
-          <div class="col-span-full mt-5 px-5">
-            <MyWork />
-          </div>
-          <div class="col-span-full flex items-center justify-center gap-x-3 py-5">
-            <div class="w-full h-[2px] bg-gray-200"></div>
-            <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
-            <div class="w-full h-[2px] bg-gray-200"></div>
-          </div>
-          <div class="col-span-full text-xl font-semibold">جدیدترین اطلاعیه ها</div>
-          <div class="col-span-full mt-5 px-5">
-            <LastAnnouncement />
+          <div class="col-span-9 flex flex-col ps-3">
+            <div class="text-xl border-r-4 border-red-600 pr-2 font-semibold">میز کار من</div>
+            <div class="mt-10 mb-10">
+              <MyDesk />
+            </div>
+            <div class="">
+              <LastAnnouncement />
+            </div>
           </div>
           <div class="col-span-full flex items-center justify-center gap-x-3 py-5">
             <div class="w-full h-[2px] bg-gray-200"></div>
             <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
             <div class="w-full h-[2px] bg-gray-200"></div>
           </div>
-          <div class="col-span-full text-xl font-semibold">جدیدترین داشبورد ها</div>
+
           <div class="col-span-full mt-5 px-5">
             <Dashboards />
           </div>
@@ -202,7 +203,7 @@ const router = useRouter();
             <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
             <div class="w-full h-[2px] bg-gray-200"></div>
           </div>
-          <div class="col-span-full text-xl font-semibold">جدیدترین ها در پینگ</div>
+          <div class="col-span-full text-xl border-r-4 border-red-600 pr-2 font-semibold">جدیدترین ها در پینگ</div>
           <div class="col-span-full mt-5 px-5">
             <LastPing />
           </div>
@@ -210,7 +211,7 @@ const router = useRouter();
       </div>
     </div>
   </div>
-
+  <!-- دیالوگ تولد -->
   <v-dialog v-model="dialog" max-width="900">
     <div class="grid justify-items-center items-center grid-cols-12">
       <div class="col-span-3" @click="dialog = false">
@@ -252,7 +253,7 @@ const router = useRouter();
           </div>
         </div>
         <div v-if="dialogtext === 'two'" class="max-h-[400px] bg-[#369A7E] min-h-[200px] overflow-y-auto flex flex-col gap-3 text-white pt-4 px-3">
-          <p class=" text-center text-3xl leading-loose font-semibold">محمد حسین ولیخانی عزیز زادروزتان خجسته باد</p>
+          <p class="text-center text-3xl leading-loose font-semibold">محمد حسین ولیخانی عزیز زادروزتان خجسته باد</p>
         </div>
 
         <div class="scallop-down"></div>
@@ -270,6 +271,9 @@ const router = useRouter();
       </div>
     </div>
   </v-dialog>
+  <button @click="triggerToast" class="btn btn-primary btn-circle fixed bottom-5 left-5 z-40 shadow-lg">
+    <v-icon>mdi-plus</v-icon>
+  </button>
 </template>
 
 <style scoped>
@@ -284,5 +288,16 @@ const router = useRouter();
   height: 50px;
   background: -webkit-gradient(radial, 50% 100%, 10, 50% 100%, 40, from(#369a7e), color-stop(0.49, #369a7e), color-stop(0.51, #fff), to(white));
   -webkit-background-size: 49px 100%;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 0.5s ease-out;
+}
+
+.slide-left-enter-from,
+.slide-left-leave-to {
+  transform: translateX(-120%);
+  opacity: 0;
 }
 </style>

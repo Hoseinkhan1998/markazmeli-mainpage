@@ -62,3 +62,44 @@
 .v-text-field-rtl input {
   text-align: right !important;
 }
+
+.but {
+  border-radius: 4px;
+  /* background-color: #5ca1e1; */
+  border: none;
+  /* color: #000000; */
+  text-align: center;
+  
+  padding: 8px 16px 8px 16px;
+  width: 120px;
+  transition: all 0.5s;
+  cursor: pointer;
+  
+  /* box-shadow: 0 10px 10px -8px rgba(0, 0, 0, 0.384); */
+}
+
+.but{
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.but:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;  
+  top: 8px;
+  left: -20px;
+  transition: 0.5s;
+}
+
+.but:hover{
+  padding-left: 24px;
+  padding-right:8px;
+}
+
+.but:hover:after {
+  opacity: 1;
+  left: 10px;
+}

@@ -5,7 +5,7 @@ import { ref } from 'vue';
 defineProps({
  activePage: {
   type: String,
-  default: "announcement", // یک مقدار پیش‌فرض برای نمایش حالت فعال
+  default: "", // یک مقدار پیش‌فرض برای نمایش حالت فعال
  },
 });
 
@@ -47,14 +47,13 @@ const menuItems = ref([
 </template>
 
 <style scoped>
-/* برای اینکه گوشه‌های اولین و آخرین آیتم هم گرد بشن */
-.justify-center > div:first-child > a {
-  border-top-right-radius: 0.5rem; /* 8px */
-  border-bottom-right-radius: 0.5rem; /* 8px */
+/* .justify-center > div:first-child > a {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 
 .justify-center > div:last-child > a {
-  border-top-left-radius: 0.5rem; /* 8px */
-  border-bottom-left-radius: 0.5rem; /* 8px */
-}
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+} */
 </style>
