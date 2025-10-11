@@ -1,9 +1,14 @@
-<script setup></script>
+<script setup>
+const props = defineProps({
+  width: { type: [String, Number], default: 512 },
+  height: { type: [String, Number], default: 512 },
+});
+</script>
 <template>
   <div>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="300px" height="300px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
-      <metadata>Created by potrace 1.16, written by Peter Selinger 2001-2019</metadata>
-      <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.0" :width="props.width" :height="props.height" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+      
+      <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
         <path
           d="M1542 4935 c-43 -19 -52 -47 -52 -170 l0 -103 -37 -13 c-21 -6 -55 -20 -76 -31 l-38 -19 -62 62 c-106 107 -146 120 -213 71 -61 -45 -244 -241 -260 -278 -20 -47 -7 -73 78 -161 72 -74 72 -74 59 -106 -7 -18 -21 -51 -30 -74 l-16 -43 -98 0 c-106 0 -158 -14 -176 -48 -16 -30 -14 -410 2 -442 18 -35 67 -49 177 -50 l95 -1 31 -74 31 -73 -73 -73 c-114 -113 -117 -142 -24 -234 l48 -48 49 41 c57 47 138 88 330 166 l141 58 -82 82 c-128 126 -186 258 -186 426 0 164 58 301 179 421 187 186 443 229 681 113 57 -28 95 -57 155 -118 130 -131 180 -257 173 -438 -3 -88 -1 -99 14 -95 9 3 134 53 277 113 l261 109 0 42 c0 99 -36 123 -187 123 l-98 0 -29 76 -29 75 66 66 c37 37 73 80 81 97 25 54 11 82 -98 195 -210 217 -225 221 -350 100 l-84 -80 -39 19 c-21 11 -54 24 -73 31 l-35 11 -1 105 c-2 116 -19 164 -64 176 -14 4 -106 7 -205 8 -134 0 -188 -3 -213 -14z" />
         <path

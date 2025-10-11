@@ -1,8 +1,13 @@
-<script setup></script>
+<script setup>
+const props = defineProps({
+  width: { type: [String, Number], default: 512 },
+  height: { type: [String, Number], default: 512 },
+});
+</script>
 <template>
   <div>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="128.000000pt" height="128.000000pt" viewBox="0 0 128.000000 128.000000" preserveAspectRatio="xMidYMid meet">
-      <g transform="translate(0.000000,128.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.0" :width="props.width" :height="props.height" viewBox="0 0 128.000000 128.000000" preserveAspectRatio="xMidYMid meet">
+      <g transform="translate(0.000000,128.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
         <path
           d="M227 1243 c-4 -3 -7 -71 -7 -150 l0 -143 -110 0 -110 0 0 -460 0 -460 640 0 640 0 0 460 0 460 -105 0 -105 0 0 131 c0 72 -5 139 -10 150 -10 18 -26 19 -419 19 -224 0 -411 -3 -414 -7z m763 -287 l0 -213 -166 -143 c-92 -78 -173 -143 -180 -144 -7 0 -90 64 -184 144 l-170 145 0 212 0 213 350 0 350 0 0 -214z m230 -491 l0 -365 -575 0 -575 0 0 360 c0 198 2 360 5 360 9 0 495 -422 495 -430 0 -4 -29 -33 -66 -65 -53 -47 -65 -62 -62 -84 2 -19 9 -27 28 -29 20 -2 97 59 385 308 198 170 361 310 362 310 2 0 3 -164 3 -365z" />
         <path d="M433 1103 c-19 -7 -16 -60 3 -67 9 -3 103 -6 209 -6 163 0 196 3 209 16 20 19 20 29 0 48 -13 14 -46 16 -212 15 -108 0 -203 -3 -209 -6z" />
