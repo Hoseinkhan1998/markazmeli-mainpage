@@ -57,7 +57,6 @@ const cards = ref([
         { id: 201, name: "علی رضایی", avatar: "/images/profile.png", snippet: "لطفاً زمان جلسه رو تأیید کن..." },
         { id: 202, name: "مهسا احسانی", avatar: "/images/profile.png", snippet: "دیتای گزارش فروش آماده شد." },
         { id: 203, name: "پویان امانی", avatar: "/images/profile.png", snippet: "فلوچارت فرایند رو دیدی؟" },
-        { id: 204, name: "کیانا صادقی", avatar: "/images/profile.png", snippet: "بخش تنخواه به تست نیاز داره." },
       ],
     },
   },
@@ -77,7 +76,6 @@ const cards = ref([
         { id: 301, title: "هماهنگی اسپرینت", time: "۱۰:۳۰", date: "۱۴۰۴/۰۷/۲۰" },
         { id: 302, title: "دموی ماژول گفتگو", time: "۱۲:۰۰", date: "۱۴۰۴/۰۷/۲۰" },
         { id: 303, title: "جلسه فروش B2B", time: "۱۴:۱۵", date: "۱۴۰۴/۰۷/۲۱" },
-        { id: 304, title: "Retro اسپرینت", time: "۱۶:۰۰", date: "۱۴۰۴/۰۷/۲۲" },
       ],
     },
   },
@@ -100,7 +98,6 @@ const cards = ref([
         { id: 401, title: "تأیید مرخصی کارمند", owner: "منابع انسانی", due: "۱۴۰۴/۰۷/۲۱" },
         { id: 402, title: "ثبت قرارداد تأمین‌کننده", owner: "تدارکات", due: "۱۴۰۴/۰۷/۲۲" },
         { id: 403, title: "به‌روزرسانی SLA پشتیبانی", owner: "پشتیبانی", due: "۱۴۰۴/۰۷/۲۳" },
-        { id: 404, title: "بررسی فاکتورهای تنخواه", owner: "مالی", due: "۱۴۰۴/۰۷/۲۴" },
       ],
     },
   },
@@ -275,7 +272,7 @@ const segmentWidth = (stages, idx) => {
           <!-- BACK (پشت کارت: «آخرین‌ها») -->
           <SwiperSlide class="h-full">
             <div class="h-full p-2 mt-3">
-              <h3 class="font-bold text-lg text-gray-800 mt-8 mb-3">آخرین وظایف</h3>
+              <h3 class="font-bold text-lg text-gray-800 mt-8 mb-3">{{ card.id === 1 ? 'آخرین وظایف' : card.id === 2 ? 'آخرین گفتگوها' : card.id === 3 ? 'رویدادهای آینده' : 'فرایندهای اخیر' }}</h3>
 
               <!-- پشتِ وظایف -->
               <template v-if="card.id === 1">
@@ -304,9 +301,6 @@ const segmentWidth = (stages, idx) => {
                     </div>
                   </li>
                 </ul>
-                <div class="absolute bottom-2 left-0 w-full px-5">
-                  <button class="w-full py-2 text-sm font-semibold bg-rose-600 hover:bg-rose-700 text-white rounded-xl transition">همه گفتگوها</button>
-                </div>
               </template>
 
               <!-- پشتِ تقویم -->
@@ -320,9 +314,6 @@ const segmentWidth = (stages, idx) => {
                     <span class="text-[12px] font-semibold text-amber-700">{{ toPersian(m.time) }}</span>
                   </li>
                 </ul>
-                <div class="absolute bottom-2 left-0 w-full px-5">
-                  <button class="w-full py-2 text-sm font-semibold bg-amber-500 hover:bg-amber-600 text-white rounded-xl transition">مشاهده تقویم</button>
-                </div>
               </template>
 
               <!-- پشتِ فرایندها -->
@@ -336,9 +327,6 @@ const segmentWidth = (stages, idx) => {
                     <span class="text-[11px] text-gray-500">{{ p.due }}</span>
                   </li>
                 </ul>
-                <div class="absolute bottom-2 left-0 w-full px-5">
-                  <button class="w-full py-2 text-sm font-semibold bg-purple-600 hover:bg-violet-700 text-white rounded-xl transition">همه فرایندها</button>
-                </div>
               </template>
             </div>
           </SwiperSlide>

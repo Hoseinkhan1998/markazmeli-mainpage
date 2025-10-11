@@ -186,7 +186,7 @@ const triggerToast = () => {
               <MyDesk />
             </div>
             <div class="">
-              <LastAnnouncement />
+              <LastPing />
             </div>
           </div>
           <div class="col-span-full flex items-center justify-center gap-x-3 py-5">
@@ -198,14 +198,13 @@ const triggerToast = () => {
           <div class="col-span-full mt-5 px-5">
             <Dashboards />
           </div>
-          <div class="col-span-full flex items-center justify-center gap-x-3 py-5">
+          <div class="col-span-full flex items-center justify-center gap-x-3">
             <div class="w-full h-[2px] bg-gray-200"></div>
             <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
             <div class="w-full h-[2px] bg-gray-200"></div>
           </div>
-          <div class="col-span-full text-xl border-r-4 border-red-600 pr-2 font-semibold">جدیدترین ها در پینگ</div>
-          <div class="col-span-full mt-5 px-5">
-            <LastPing />
+          <div class="col-span-full">
+            <LastAnnouncement />
           </div>
         </div>
       </div>

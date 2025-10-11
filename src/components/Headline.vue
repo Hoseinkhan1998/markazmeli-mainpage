@@ -36,15 +36,19 @@ const Headlines = [
   "«طرح کنوانسیون ژنو دیجیتال» و «توافق‌نامه امنیت ...",
   "موتور جستجوی بومی",
   "خوداتکایی در حوزه فضای مجازی",
+  "هوشمندسازی در عرصه کشاورزی",
+  "بررسی راهبردها و سیاستهای توسعه و بکارگیری کلان ...",
+  "صنعت نرم‌افزار و سخت‌افزار",
 ];
 
 const Security = [
-  "الزامات جدید در خصوص ورود و خروج تجهیزات رایانه‌ای ...",
-  "افزایش ضریب امنیت اطلاعات در واحدهای ستادی",
-  "نحوه استفاده مجاز از پیام‌رسان‌های سازمانی",
-  "گزارش عملکرد حراست در حوزه حفاظت فیزیکی ...",
-  "بازنگری در دستورالعمل احراز هویت کارکنان",
-  "پیشگیری از نشت اطلاعات در بستر شبکه داخلی",
+  "ردپای اکانت‌های اسرائیلی در شبکه فارسی‌زبان توییتر",
+  "همایش تجلیل از مبلغین فضای مجازی فعال در جنگ ۱۲ روزه",
+  "ابلاغ سند ترویج و ارتقای سواد فضای مجازی",
+  "افشاگری هاآرتص درباره شبکه حساب‌های جعلی اسرائیل",
+  "مردم چقدر زمان در شبکه‌های اجتماعی صرف می‌کنند؟",
+  "بررسی پیش‌نویس سند بکارگیری فناوری‌های پولی و مالی در فضای مجازی",
+  "بحران فناوری در رژیم صهیونیستی",
 ];
 </script>
 <template>
@@ -58,31 +62,10 @@ const Security = [
     </div>
   </div>
   <Divider />
-  <div v-if="layout === 'ping'" class="ps-3">
-    <div class="flex justify-between items-center">
-      <div class="flex items-center gap-1">
-        <v-icon size="30px" class="!text-red-600 font-semibold">mdi-fire</v-icon>
-        <p class="text-lg font-semibold">پینگ جدید رو دیدی؟</p>
-      </div>
-      <div class="but text-blue-500"><span>برو ببین ...</span></div>
-    </div>
 
-    <!-- ویدیو پینگ -->
-    <div class="mt-4 rounded-xl overflow-hidden shadow-lg cursor-pointer">
-      <video src="/images/video1.mp4" autoplay muted loop playsinline class="h-full object-cover"></video>
-    </div>
-    <div class="flex justify-between items-center px-5 mt-2">
-      <div class="flex items-center gap-1 text-xs">
-        <span>۵۸</span> <v-icon>mdi-eye-outline</v-icon><span class="mr-6">۲۴</span> <v-icon class="text-red-600">mdi-heart</v-icon>
-      </div>
-
-      <div class="flex items-center gap-1 text-xs"><span>۱۴۰۴/۰۷/۱۶</span> <v-icon>mdi-calendar-clock-outline</v-icon></div>
-    </div>
-  </div>
-
-  <div v-if="layout === 'security'">
+  <div>
     <div class="flex items-center justify-between ps-3">
-      <div class="text-xl border-r-4 border-red-600 pr-2 font-semibold">آخرین اخبار حراست</div>
+      <div class="text-xl border-r-4 border-red-600 pr-2 font-semibold">آخرین اخبار فضای مجازی</div>
       <div class="but text-blue-500 text-sm"><span>موارد بیشتر ...</span></div>
     </div>
     <div class="flex flex-col gap-3 mt-5 ps-4">
