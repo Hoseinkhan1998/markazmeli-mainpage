@@ -91,7 +91,7 @@ const triggerToast = () => {
   showToast.value = true;
   toastTimeout = setTimeout(() => {
     showToast.value = false;
-  }, 5000); // مخفی شدن بعد از ۵ ثانیه
+  }, 11000); // مخفی شدن بعد از ۵ ثانیه
 };
 </script>
 <template>
@@ -100,8 +100,11 @@ const triggerToast = () => {
       <div class="p-3">
         <div class="toast toast-top toast-end z-50">
           <transition name="slide-left">
-            <div v-if="showToast" class="alert alert-info shadow-lg">
-              <span>این یک پیام آزمایشی است!</span>
+            <div v-if="showToast" class="alert alert-info !bg-white shadow-lg">
+              <div class=" flex flex-col gap-3">
+                <p class=" text-center break-words max-w-[135px] text-xs" style="word-break: break-all;">میدونستی میتونی با برگردوندن <br />هر کارت توی میز کار من آخرین<br /> وضیعت اون کارت رو ببینی؟</p>
+                <img src="/images/record.gif" class=" w-[140px] h-[180px]" alt="">
+              </div>
             </div>
           </transition>
         </div>

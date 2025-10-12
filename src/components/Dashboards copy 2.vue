@@ -6,19 +6,19 @@ import ITServiceIcon from "./Icons/ITServiceIcon.vue";
 import LetterIcon from "./Icons/letterIcon.vue";
 import Process_agilityIcon from "./Icons/Process_agilityIcon.vue";
 
-// ایمپورت کردن کتابخانه‌های چارت
+// ۱. ایمپورت کردن کتابخانه‌های چارت
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, ArcElement } from "chart.js";
 import { Line, Doughnut, Pie } from "vue-chartjs";
 
-// رجیستر کردن اجزای مورد نیاز Chart.js
+// ۲. رجیستر کردن اجزای مورد نیاز Chart.js
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, ArcElement);
 
+// ۳. متغیر برای کنترل نمایش همه کارت‌ها
 const showAll = ref(false);
 
-// داده‌های کارت‌ها با ساختار جدید (ترکیب چارت و آمار)
+// داده‌های کارت‌ها با اطلاعات آماری و چارت
 const dashboards = [
   {
-    // کارت ۱: بدون تغییر
     id: 1,
     title: "گزارش خدمات فناوری اطلاعات",
     iconComp: ITServiceIcon,
@@ -26,6 +26,7 @@ const dashboards = [
     softBg: "from-cyan-50 to-blue-50",
     pill: "Power BI • IT Services",
     ctaColor: "bg-sky-600 hover:bg-sky-700",
+    // اطلاعات چارت خطی
     chartType: "Line",
     chartData: {
       labels: ["مهر", "آبان", "آذر", "دی", "بهمن"],
@@ -47,7 +48,6 @@ const dashboards = [
     },
   },
   {
-    // کارت ۲: چارت + آمار
     id: 2,
     title: "تحلیل بازدید اطلاعیه‌ها",
     iconComp: Important_report,
@@ -55,25 +55,24 @@ const dashboards = [
     softBg: "from-amber-50 to-rose-50",
     pill: "Power BI • Announcements",
     ctaColor: "bg-amber-600 hover:bg-amber-700",
+    // اطلاعات چارت دونات
     chartType: "Doughnut",
     chartData: {
-      labels: ["مطالعه شده", "خوانده نشده"],
+      labels: ["مطالعه شده", "خوانده نشده", "در حال بررسی"],
       datasets: [
         {
-          backgroundColor: ["#10b981", "#ef4444"],
-          data: [85, 15],
+          backgroundColor: ["#10b981", "#ef4444", "#f59e0b"],
+          data: [85, 15, 22],
         },
       ],
     },
-    chartOptions: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } },
-    // آمار عددی اضافه شد
-    stats: [
-      { label: "نرخ تعامل", value: "85%", color: "text-green-600" },
-      { label: "پرخواننده‌ترین موضوع", value: "مالی", color: "text-amber-600" },
-    ],
+    chartOptions: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom", labels: { font: { size: 10 } } } },
+    },
   },
   {
-    // کارت ۳: فقط آمار (با جزئیات بیشتر)
     id: 3,
     title: "وضعیت سند راهبردی",
     iconComp: LetterIcon,
@@ -81,16 +80,14 @@ const dashboards = [
     softBg: "from-violet-50 to-indigo-50",
     pill: "Power BI • Strategy",
     ctaColor: "bg-indigo-600 hover:bg-indigo-700",
-    // آمار عددی گسترش یافت
+    // نمایش آمار به صورت عددی
     stats: [
       { label: "اهداف کلیدی محقق شده", value: "72%", color: "text-green-600" },
       { label: "پروژه‌های در حال اجرا", value: "14", color: "text-blue-600" },
-      { label: "ابتکارات تعریف شده", value: "28", color: "text-violet-600" },
       { label: "شاخص‌های نیازمند توجه", value: "3", color: "text-red-600" },
     ],
   },
   {
-    // کارت ۴: چارت + آمار
     id: 4,
     title: "وضعیت اجرای مصوبات",
     iconComp: ApprovalIcon,
@@ -98,6 +95,7 @@ const dashboards = [
     softBg: "from-emerald-50 to-teal-50",
     pill: "Power BI • Approvals",
     ctaColor: "bg-emerald-600 hover:bg-emerald-700",
+    // اطلاعات چارت دایره‌ای
     chartType: "Pie",
     chartData: {
       labels: ["اجرا شده", "معوق", "در حال اجرا"],
@@ -108,15 +106,13 @@ const dashboards = [
         },
       ],
     },
-    chartOptions: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } },
-    // آمار عددی اضافه شد
-    stats: [
-      { label: "کل مصوبات", value: "83", color: "text-teal-600" },
-      { label: "مصوبات معوق", value: "8", color: "text-red-600" },
-    ],
+    chartOptions: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+    },
   },
   {
-    // کارت ۵: فقط آمار (با جزئیات بیشتر)
     id: 5,
     title: "چابکی فرایندها",
     iconComp: Process_agilityIcon,
@@ -124,22 +120,21 @@ const dashboards = [
     softBg: "from-fuchsia-50 to-cyan-50",
     pill: "Power BI • Process Agility",
     ctaColor: "bg-fuchsia-600 hover:bg-fuchsia-700",
-    // آمار عددی گسترش یافت
+    // نمایش آمار به صورت عددی
     stats: [
       { label: "میانگین زمان انجام فرایند", value: "3.2 روز", color: "text-purple-600" },
-      { label: "فرایندهای دارای گلوگاه", value: "5", color: "text-orange-600" },
-      { label: "شاخص چابکی سازمان", value: "7.8 / 10", color: "text-cyan-600" },
+      { label: "فرایندهای شناسایی گلوگاه", value: "5", color: "text-orange-600" },
     ],
   },
 ];
 
+// ۴. Computed property برای نمایش کارت‌ها بر اساس وضعیت showAll
 const displayedDashboards = computed(() => {
   if (showAll.value) {
     return dashboards;
   }
   return dashboards.slice(0, 3);
 });
-const toPersian = (val) => String(val).replace(/[0-9]/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
 </script>
 
 <template>
@@ -172,28 +167,14 @@ const toPersian = (val) => String(val).replace(/[0-9]/g, (d) => "۰۱۲۳۴۵۶�
               {{ d.title }}
             </h3>
 
-            <div class="h-[180px]">
-              <div v-if="d.chartType && d.stats" class="grid grid-cols-2 gap-4 items-center h-full">
-                <div class="h-[150px]">
-                  <Doughnut v-if="d.chartType === 'Doughnut'" :data="d.chartData" :options="d.chartOptions" />
-                  <Pie v-if="d.chartType === 'Pie'" :data="d.chartData" :options="d.chartOptions" />
-                </div>
-                <div class="flex flex-col gap-4">
-                  <div v-for="stat in d.stats" :key="stat.label" class="text-center">
-                    <p class="text-2xl font-bold" :class="stat.color">{{ toPersian(stat.value) }}</p>
-                    <p class="text-xs text-slate-500">{{ stat.label }}</p>
-                  </div>
-                </div>
-              </div>
-
-              <template v-else-if="d.chartType">
-                <Line :data="d.chartData" :options="d.chartOptions" />
-              </template>
-
-              <div v-else-if="d.stats" class="flex flex-col justify-center h-full gap-4">
-                <div v-for="stat in d.stats" :key="stat.label" class="flex items-center justify-between border-b border-gray-200/50 pb-2 last:border-b-0">
+            <div class="h-[150px]">
+              <Line v-if="d.chartType === 'Line'" :data="d.chartData" :options="d.chartOptions" />
+              <Doughnut v-if="d.chartType === 'Doughnut'" :data="d.chartData" :options="d.chartOptions" />
+              <Pie v-if="d.chartType === 'Pie'" :data="d.chartData" :options="d.chartOptions" />
+              <div v-if="d.stats" class="flex flex-col justify-center h-full gap-4">
+                <div v-for="stat in d.stats" :key="stat.label" class="flex items-center justify-between">
                   <span class="text-sm text-slate-600">{{ stat.label }}</span>
-                  <span class="text-lg font-bold" :class="stat.color">{{ toPersian(stat.value) }}</span>
+                  <span class="text-xl font-bold" :class="stat.color">{{ stat.value }}</span>
                 </div>
               </div>
             </div>
@@ -203,7 +184,7 @@ const toPersian = (val) => String(val).replace(/[0-9]/g, (d) => "۰۱۲۳۴۵۶�
             <div class="px-5">
               <button class="w-full text-sm md:text-[13px] font-semibold text-white rounded-xl py-2.5 transition flex items-center justify-center gap-2" :class="d.ctaColor">
                 مشاهده داشبورد
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg xmlns="http://www.w.3.org/2000/svg" class="w-4 h-4 -scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </button>
@@ -214,3 +195,7 @@ const toPersian = (val) => String(val).replace(/[0-9]/g, (d) => "۰۱۲۳۴۵۶�
     </div>
   </section>
 </template>
+
+<style scoped>
+/* استایل‌های قبلی بدون تغییر */
+</style>
