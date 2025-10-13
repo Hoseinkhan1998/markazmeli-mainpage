@@ -1,7 +1,6 @@
 <script setup>
 import { useRouter } from "vue-router";
 import Menu from "../components/Menu.vue";
-// import MyWork from "../components/MyWork.vue";
 import LastAnnouncement from "../components/LastAnnouncement.vue";
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import Dashboards from "../components/Dashboards.vue";
@@ -10,17 +9,12 @@ import { Vue3Lottie } from "vue3-lottie";
 import MyAnimation from "../assets/animations/my-animation.json";
 import MyDesk from "../components/MyDesk.vue";
 import Headline from "../components/Headline.vue";
-// import MyWork from "../components/MyWork.vue";
 
 const layout = ref("grid");
 const dialogtext = ref("first");
-
 const dialog = ref(false);
 
-// شورتکات‌ها: Alt + Shift + 1/2
-// فقط با فشردن E یا F کار کنه
 const handleKeydown = (event) => {
-  // اگر کاربر در حال تایپ در input یا textarea بود، کاری نکن
   if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
 
   switch (event.key.toLowerCase()) {
@@ -39,15 +33,6 @@ const handleKeydown = (event) => {
       break;
   }
 };
-
-onMounted(() => {
-  window.addEventListener("keydown", handleKeydown);
-});
-
-// حذف شنونده رویداد برای جلوگیری از نشت حافظه
-onUnmounted(() => {
-  window.removeEventListener("keydown", handleKeydown);
-});
 
 const featuredNews = {
   main: [
@@ -85,6 +70,7 @@ const router = useRouter();
 
 const showToast = ref(false);
 let toastTimeout = null;
+let autoHideTimeout = null;
 
 const triggerToast = () => {
   clearTimeout(toastTimeout); // پاک کردن تایمر قبلی اگر وجود داشت
@@ -93,6 +79,20 @@ const triggerToast = () => {
     showToast.value = false;
   }, 11000); // مخفی شدن بعد از ۵ ثانیه
 };
+const closeToast = () => {
+  showToast.value = false;
+  clearTimeout(autoHideTimeout); // پاک کردن تایمر مخفی کردن خودکار
+};
+
+onMounted(() => {
+  window.addEventListener("keydown", handleKeydown);
+  toastTimeout = setInterval(triggerToast, 1 * 60 * 100); // 2 دقیقه
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeydown);
+  // clearInterval(toastTimeout);
+});
 </script>
 <template>
   <div class="bg-white h-full rounded-lg">
@@ -100,15 +100,23 @@ const triggerToast = () => {
       <div class="p-3">
         <div class="toast toast-top toast-end z-50">
           <transition name="slide-left">
-            <div v-if="showToast" class="alert alert-info !bg-white shadow-lg">
-              <div class=" flex flex-col gap-3">
-                <p class=" text-center break-words max-w-[135px] text-xs" style="word-break: break-all;">میدونستی میتونی با برگردوندن <br />هر کارت توی میز کار من آخرین<br /> وضیعت اون کارت رو ببینی؟</p>
-                <img src="/images/record.gif" class=" w-[140px] h-[180px]" alt="">
+            <div v-if="showToast" class="alert !bg-gradient-to-br from-blue-300 to-purple-400 shadow-xl relative overflow-hidden rounded-lg p-4">
+              <button @click="closeToast" class="absolute top-2 left-2 text-white hover:text-gray-200 transition">
+                <v-icon>mdi-close-circle</v-icon>
+              </button>
+              <div class="flex flex-col items-center gap-3 text-white">
+                <p class="text-center break-words text-sm font-medium leading-relaxed">
+                  میدونستی میتونی با برگردوندن
+                  <br />
+                  هر کارت توی میز کار من آخرین
+                  <br />
+                  وضیعت اون کارت رو ببینی؟
+                </p>
+                <img src="/images/record.gif" class="w-[120px] h-[160px] rounded-lg shadow-md" alt="" />
               </div>
             </div>
           </transition>
         </div>
-
         <Menu />
       </div>
       <div class="flex flex-col pb-10">

@@ -146,7 +146,7 @@ const toPersian = (val) => String(val).replace(/[0-9]/g, (d) => "۰۱۲۳۴۵۶�
   <section dir="rtl" class="w-full">
     <div class="flex items-center justify-between mb-5 pe-2">
       <h2 class="text-xl font-semibold border-r-4 border-red-600 pr-3">داشبوردهای مدیریتی (Power BI)</h2>
-      <button @click="showAll = !showAll" class="text-sky-700 hover:text-sky-900 font-medium transition">
+      <button @click="showAll = !showAll" class="text-sky-700 but hover:text-sky-900 font-medium transition">
         {{ showAll ? "نمایش کمتر" : "مشاهده همه" }}
       </button>
     </div>
