@@ -1,49 +1,50 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 // پراپس برای مشخص کردن صفحه فعال
 defineProps({
- activePage: {
-  type: String,
-  default: "", // یک مقدار پیش‌فرض برای نمایش حالت فعال
- },
+  activePage: {
+    type: String,
+    default: "", // یک مقدار پیش‌فرض برای نمایش حالت فعال
+  },
 });
 
 // لیست آیتم‌های منو برای شبیه‌سازی واقعی‌تر
 const menuItems = ref([
- { id: 'announcement', label: 'اطلاعیه', to: '/announcement', hasNotification: true },
- { id: 'ping', label: 'پینگ', to: '/ping', hasNotification: true },
- { id: 'security', label: 'حراست', to: '/security', hasNotification: false },
- { id: 'tasks', label: 'وظایف', to: '/tasks', hasNotification: false },
- { id: 'calendar', label: 'تقویم', to: '/calendar', hasNotification: false },
- { id: 'processes', label: 'فرایندها', to: '/processes', hasNotification: false },
- { id: 'chat', label: 'گفتگو', to: '/chat', hasNotification: true },
- { id: 'reports', label: 'گزارش‌ها', to: '/reports', hasNotification: false },
- { id: 'settings', label: 'تنظیمات', to: '/settings', hasNotification: false },
- { id: 'archive', label: 'بایگانی', to: '/archive', hasNotification: false },
+  { id: "announcement", label: "اطلاعیه", to: "/announcement", hasNotification: true },
+  { id: "ping", label: "پینگ", to: "/ping", hasNotification: true },
+  { id: "security", label: "حراست", to: "/security", hasNotification: false },
+  { id: "tasks", label: "وظایف", to: "/tasks", hasNotification: false },
+  { id: "calendar", label: "تقویم", to: "/calendar", hasNotification: false },
+  { id: "processes", label: "فرایندها", to: "/processes", hasNotification: false },
+  { id: "chat", label: "گفتگو", to: "/chat", hasNotification: true },
+  { id: "reports", label: "گزارش‌ها", to: "/reports", hasNotification: false },
+  { id: "settings", label: "تنظیمات", to: "/settings", hasNotification: false },
+  { id: "archive", label: "بایگانی", to: "/archive", hasNotification: false },
 ]);
 </script>
 
 <template>
-  <div class="flex items-center justify-center bg-blue-600 rounded-lg">
+  <div class="flex items-center justify-center bg-blue-600 rounded-lg relative">
     <div v-for="item in menuItems" :key="item.id">
-   <router-link
-    :to="item.to"
-    class="relative text-white text-sm py-3 px-4 block transition-colors duration-200"
-    :class="{
-     'hover:bg-blue-700': activePage !== item.id, // هاور فقط برای آیتم‌های غیرفعال
-     '!bg-blue-800 font-bold': activePage === item.id, // استایل آیتم فعال
-    }"
-   >
-    {{ item.label }}
+      <router-link
+        :to="item.to"
+        class="relative text-white text-sm py-3 px-4 block transition-colors duration-200"
+        :class="{
+          'hover:bg-blue-700': activePage !== item.id, // هاور فقط برای آیتم‌های غیرفعال
+          '!bg-blue-800 font-bold': activePage === item.id, // استایل آیتم فعال
+        }">
+        {{ item.label }}
         <div
-     v-if="item.hasNotification"
-     class="absolute top-2.5 right-2 bg-red-500 h-2 w-2 rounded-full ring-1 ring-blue-600"
-         :class="{ '!ring-blue-800': activePage === item.id }"
-    ></div>
-   </router-link>
+          v-if="item.hasNotification"
+          class="absolute top-2.5 right-2 bg-red-500 h-2 w-2 rounded-full ring-1 ring-blue-600"
+          :class="{ '!ring-blue-800': activePage === item.id }"></div>
+      </router-link>
+    </div>
+    <router-link to="/second" class="absolute left-10  ">
+      <div class="opacity-0 hover:!opacity-100 transition-all duration-500 bg-white/70 text-black font-semibold rounded-lg px-3 py-1">صفحه دوم</div>
+    </router-link>
   </div>
- </div>
 </template>
 
 <style scoped>

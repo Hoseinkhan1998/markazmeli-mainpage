@@ -4,11 +4,10 @@ import Menu from "../components/Menu.vue";
 import LastAnnouncement from "../components/LastAnnouncement.vue";
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import Dashboards from "../components/Dashboards.vue";
-import LastPing from "../components/LastPing.vue";
 import { Vue3Lottie } from "vue3-lottie";
 import MyAnimation from "../assets/animations/my-animation.json";
 import MyDesk from "../components/MyDesk.vue";
-import Headline from "../components/Headline.vue";
+import LastPingSecond from "../components/LastPingSecond.vue";
 
 const layout = ref("grid");
 const dialogtext = ref("first");
@@ -73,15 +72,15 @@ let toastTimeout = null;
 let autoHideTimeout = null;
 
 const triggerToast = () => {
-  clearTimeout(toastTimeout); // پاک کردن تایمر قبلی اگر وجود داشت
+  clearTimeout(toastTimeout);
   showToast.value = true;
   toastTimeout = setTimeout(() => {
     showToast.value = false;
-  }, 11000); // مخفی شدن بعد از ۵ ثانیه
+  }, 11000);
 };
 const closeToast = () => {
   showToast.value = false;
-  clearTimeout(autoHideTimeout); // پاک کردن تایمر مخفی کردن خودکار
+  clearTimeout(autoHideTimeout);
 };
 
 onMounted(() => {
@@ -94,6 +93,7 @@ onUnmounted(() => {
   // clearInterval(toastTimeout);
 });
 </script>
+
 <template>
   <div class="bg-white h-full rounded-lg">
     <div class="flex flex-col gap-5">
@@ -122,7 +122,7 @@ onUnmounted(() => {
       <div class="flex flex-col pb-10">
         <div v-if="layout === 'grid'" class="grid grid-cols-12 gap-x-5 px-3">
           <div class="col-span-9 grid grid-cols-3 gap-6">
-            <div class="col-span-2 relative rounded-xl overflow-hidden h-[424px] group cursor-pointer">
+            <div class="col-span-2 relative rounded-xl overflow-hidden h-[425px] group cursor-pointer">
               <v-carousel next-icon="mdi-chevron-left" prev-icon="mdi-chevron-right" show-arrows="hover" :reverse="true" hide-delimiter-background cycle height="425">
                 <v-carousel-item v-for="(item, index) in featuredNews.main" :key="index">
                   <img :src="item.img" alt="Hero Image" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -185,35 +185,42 @@ onUnmounted(() => {
         </div>
 
         <div class="col-span-full mt-10 grid grid-cols-12">
-          <div class="col-span-3 bg-neutral-100 border flex flex-col shadow-md shadow-neutral-200 p-3">
+          <!-- <div class="col-span-3 bg-neutral-100 border flex flex-col shadow-md shadow-neutral-200 p-3">
             <Headline />
-          </div>
+          </div> -->
 
           <!-- کار های من -->
-          <div class="col-span-9 flex flex-col ps-3">
-            <div class="text-xl border-r-4 border-red-600 pr-2 font-semibold">میز کار من</div>
-            <div class="mt-10 mb-10">
-              <MyDesk />
+          <div class="col-span-full flex flex-col">
+            <div class="flex flex-col py-8 ps-3 bg-purple-300/30">
+              <div class="text-xl border-r-4 border-red-600 pr-2 font-semibold">میز کار من</div>
+              <div class="mt-10">
+                <MyDesk />
+              </div>
             </div>
-            <div class="">
-              <LastPing />
+            <div class="col-span-full flex items-center justify-center gap-x-3 pt-5">
+              <div class="w-full h-[2px] bg-blue-600"></div>
+              <v-icon class="!text-blue-600">mdi-star-four-points-outline</v-icon>
+              <div class="w-full h-[2px] bg-blue-600"></div>
+            </div>
+            <div class="px-4">              
+              <Dashboards />
             </div>
           </div>
           <div class="col-span-full flex items-center justify-center gap-x-3 py-5">
-            <div class="w-full h-[2px] bg-gray-200"></div>
-            <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
-            <div class="w-full h-[2px] bg-gray-200"></div>
+            <div class="w-full h-[2px] bg-blue-600"></div>
+            <v-icon class="!text-blue-600">mdi-star-four-points-outline</v-icon>
+            <div class="w-full h-[2px] bg-blue-600"></div>
           </div>
 
-          <div class="col-span-full mt-5 px-5">
-            <Dashboards />
+          <div class="col-span-full">
+            <LastPingSecond />
           </div>
           <div class="col-span-full flex items-center justify-center gap-x-3">
-            <div class="w-full h-[2px] bg-gray-200"></div>
+            <!-- <div class="w-full h-[2px] bg-gray-200"></div>
             <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
-            <div class="w-full h-[2px] bg-gray-200"></div>
+            <div class="w-full h-[2px] bg-gray-200"></div> -->
           </div>
-          <div class="col-span-full">
+          <div class="col-span-full mt-10">
             <LastAnnouncement />
           </div>
         </div>

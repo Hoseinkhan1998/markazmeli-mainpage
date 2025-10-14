@@ -6,10 +6,12 @@ import Ping from "../pages/Ping.vue";
 import Security from "../pages/Security.vue";
 import PingDetails from "../pages/PingDetails.vue";
 import AnnouncementDetails from "../pages/AnnouncementDetails.vue";
+import SecondLayout from "../pages/SecondLayout.vue";
 
 const routes = [
   // { path: "/", component: HomePage, name: "home" },
   { path: "/", component: FirstLayout, name: "first-layout" },
+  { path: "/second", component: SecondLayout, name: "second-layout" },
   { path: "/announcement", component: Announcement, name: "announcement" },
   { path: "/announcement/:id", component: AnnouncementDetails, name: "AnnouncementDetails" },
   { path: "/ping", component: Ping, name: "ping" },

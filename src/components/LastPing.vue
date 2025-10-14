@@ -61,11 +61,14 @@ const stopPreview = (event) => {
 </script>
 
 <template>
-  <div class="bg-white h-full -mt-2 rounded-lg">
+  <div class="h-full mt-2">
     <div class="flex items-center justify-between pe-10">
-      <div class="text-xl border-r-4 border-red-600 pr-2 font-semibold">پینگ‌های جدید رو دیدی؟</div>
-      <div class="but text-blue-500"><span>مشاهده همه</span></div>
-    </div>   
+      <div class="text-xl font-semibold flex items-center gap-2">
+        <v-icon class="!text-red-600">mdi-fire</v-icon>
+        <p>پینگ‌های جدید رو دیدی؟</p>
+      </div>
+      <router-link to="/ping" class="but text-blue-500"><span>مشاهده همه</span></router-link>
+    </div>
     <div class="grid grid-cols-12 gap-x-4 pe-4 mt-4">
       <div class="col-span-5 flex flex-col gap-2">
         <video src="/images/video1.mp4" autoplay muted loop playsinline class="h-[350px] rounded-xl object-cover"></video>

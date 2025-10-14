@@ -3,6 +3,7 @@ import { ref, computed } from "vue";
 import TaskIcon from "./Icons/TaskIcon.vue";
 import Process_agilityIcon from "./Icons/Process_agilityIcon.vue";
 import { VProgressCircular, VProgressLinear, VIcon } from "vuetify/components";
+import { useRoute } from "vue-router";
 
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -16,6 +17,7 @@ import "swiper/css/navigation";
 const toPersian = (val) => String(val).replace(/[0-9]/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
 
 const modules = [EffectFlip, Pagination, Navigation];
+const route = useRoute();
 
 const cards = ref([
   {
@@ -101,7 +103,49 @@ const cards = ref([
       ],
     },
   },
+
+  // {
+  //   id: 5,
+  //   title: "گزارش‌ها",
+  //   color: "from-teal-500 to-cyan-600",
+  //   bg: "from-teal-50 to-cyan-50",
+  //   icon: "mdi-file-chart",
+  //   data: {
+  //     monthProgress: 72,
+  //     ready: 18,
+  //     pending: 6,
+  //     exported: 9,
+  //     // پشت کارت: آخرین گزارش‌ها
+  //     latestReports: [
+  //       { id: 501, title: "گزارش عملکرد ماهانه واحد فروش", date: "۱۴۰۴/۰۷/۱۹", status: "تأیید شده" },
+  //       { id: 502, title: "تحلیل ترافیک پرتال سازمانی", date: "۱۴۰۴/۰۷/۲۰", status: "در انتظار" },
+  //       { id: 503, title: "شاخص‌های SLA و پشتیبانی", date: "۱۴۰۴/۰۷/۲۰", status: "نیاز به اصلاح" },
+  //     ],
+  //   },
+  // },
 ]);
+
+// فقط اگر URL شامل "second" بود، کارت گزارش‌ها رو اضافه کن
+if (route.fullPath.includes("second")) {
+  cards.value.push({
+    id: 5,
+    title: "گزارش‌ها",
+    color: "from-teal-500 to-cyan-600",
+    bg: "from-teal-50 to-cyan-50",
+    icon: "mdi-file-chart",
+    data: {
+      monthProgress: 72,
+      ready: 18,
+      pending: 6,
+      exported: 9,
+      latestReports: [
+        { id: 501, title: "گزارش عملکرد ماهانه واحد فروش", date: "۱۴۰۴/۰۷/۱۹", status: "تأیید شده" },
+        { id: 502, title: "تحلیل ترافیک پرتال سازمانی", date: "۱۴۰۴/۰۷/۲۰", status: "در انتظار" },
+        { id: 503, title: "شاخص‌های SLA و پشتیبانی", date: "۱۴۰۴/۰۷/۲۰", status: "نیاز به اصلاح" },
+      ],
+    },
+  });
+}
 
 // کمک‌کننده برای محاسبه درصد هر سگمنت
 const segmentWidth = (stages, idx) => {
@@ -111,7 +155,7 @@ const segmentWidth = (stages, idx) => {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pe-3">
+  <div :class="['grid grid-cols-1 sm:grid-cols-2 gap-3 pe-3', cards.length === 5 ? 'lg:grid-cols-5' : 'lg:grid-cols-4']">
     <div
       v-for="card in cards"
       :key="card.id"
@@ -132,7 +176,6 @@ const segmentWidth = (stages, idx) => {
               <!-- عنوان -->
               <h3 class="font-bold text-xl text-gray-800 mt-8 mb-3">{{ card.title }}</h3>
 
-              <!-- محتوا: بر اساس نوع کارت -->
               <!-- وظایف -->
               <template v-if="card.id === 1">
                 <div class="flex items-center justify-between mb-2">
@@ -266,13 +309,43 @@ const segmentWidth = (stages, idx) => {
                   </div>
                 </div>
               </template>
+
+              <!-- گزارش‌ها -->
+              <template v-else-if="card.id === 5">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-sm text-gray-600">تکمیل گزارش‌های ماه</span>
+                  <span class="text-sm font-bold text-gray-800">{{ toPersian(card.data.monthProgress) }}٪</span>
+                </div>
+                <v-progress-linear :model-value="card.data.monthProgress" height="10" rounded color="primary" class="mb-4" />
+                <div class="grid grid-cols-3 gap-2 text-sm mb-4">
+                  <div class="flex flex-col items-center justify-center bg-white/70 rounded-xl px-3 py-2">
+                    <span class="text-gray-600">آماده</span>
+                    <span class="font-semibold text-gray-800 mt-1">{{ toPersian(card.data.ready) }}</span>
+                  </div>
+                  <div class="flex flex-col items-center justify-center bg-amber-50 rounded-xl px-3 py-2">
+                    <span class="text-amber-700">در انتظار</span>
+                    <span class="font-semibold text-amber-800 mt-1">{{ toPersian(card.data.pending) }}</span>
+                  </div>
+                  <div class="flex flex-col items-center justify-center bg-emerald-50 rounded-xl px-3 py-2">
+                    <span class="text-emerald-700">تکمیل شده</span>
+                    <span class="font-semibold text-emerald-800 mt-1">{{ toPersian(card.data.exported) }}</span>
+                  </div>
+                </div>
+                <div class="absolute bottom-2 w-full right-0">
+                  <div class="px-5">
+                    <button class="w-full py-2 text-sm font-semibold bg-teal-600 hover:bg-cyan-700 text-white rounded-xl transition">مرکز گزارش‌ها</button>
+                  </div>
+                </div>
+              </template>
             </div>
           </SwiperSlide>
 
           <!-- BACK (پشت کارت: «آخرین‌ها») -->
           <SwiperSlide class="h-full">
             <div class="h-full p-2 mt-3">
-              <h3 class="font-bold text-lg text-gray-800 mt-8 mb-3">{{ card.id === 1 ? 'آخرین وظایف' : card.id === 2 ? 'آخرین گفتگوها' : card.id === 3 ? 'رویدادهای آینده' : 'فرایندهای اخیر' }}</h3>
+              <h3 class="font-bold text-lg text-gray-800 mt-8 mb-3">
+                {{ card.id === 1 ? "آخرین وظایف" : card.id === 2 ? "آخرین گفتگوها" : card.id === 3 ? "رویدادهای آینده" : card.id === 4 ? "فرایندهای اخیر" : "گزارش‌های اخیر" }}
+              </h3>
 
               <!-- پشتِ وظایف -->
               <template v-if="card.id === 1">
@@ -325,6 +398,25 @@ const segmentWidth = (stages, idx) => {
                       <span class="text-[11px] text-gray-500">{{ p.owner }}</span>
                     </div>
                     <span class="text-[11px] text-gray-500">{{ p.due }}</span>
+                  </li>
+                </ul>
+              </template>
+
+              <!-- پشتِ گزارش‌ها -->
+              <template v-else-if="card.id === 5">
+                <ul class="space-y-2">
+                  <li v-for="r in card.data.latestReports" :key="r.id" class="bg-white/75 rounded-xl px-3 py-2 flex items-center justify-between text-sm">
+                    <div class="min-w-0">
+                      <div class="text-gray-800 truncate">{{ r.title }}</div>
+                      <div class="text-[11px] text-gray-500 mt-0.5">{{ r.date }}</div>
+                    </div>
+                    <span
+                      :class="[
+                        'text-[11px] px-2 py-1 rounded-lg whitespace-nowrap',
+                        r.status === 'تأیید شده' ? 'bg-emerald-100 text-emerald-700' : r.status === 'در انتظار' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700',
+                      ]">
+                      {{ r.status }}
+                    </span>
                   </li>
                 </ul>
               </template>
