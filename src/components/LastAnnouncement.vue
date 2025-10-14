@@ -121,11 +121,11 @@ const cards = ref([
 
 <template>
   <div class="bg-white h-full -mt-2 rounded-lg">
-    <div class="flex items-center justify-between bg-[#fddb4467] pe-10 ps-5 pt-3">
+    <div class="flex items-center justify-between bg-[#fddb4467]/30 pe-10 ps-5 pt-3">
       <div class="text-xl border-r-4 border-red-600 pr-2 font-semibold">آخرین اطلاعیه‌ها</div>
       <div class="but text-blue-500"><span>مشاهده همه</span></div>
     </div>
-    <swiper :slides-per-view="5.5" :space-between="30" :centered-slides="false" :pagination="{ clickable: true }" :modules="modules" class="mySwiper ps-4 bg-[#fddb4467]">
+    <swiper :slides-per-view="5.5" :space-between="30" :centered-slides="false" :pagination="{ clickable: true }" :modules="modules" class="mySwiper ps-4 bg-[#fddb4467]/30">
       <swiper-slide v-for="card in cards" :key="card.id" class="group relative rounded-2xl overflow-hidden shadow-lg cursor-pointer pb-4">
         <img :src="card.img" alt="Main image" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
 

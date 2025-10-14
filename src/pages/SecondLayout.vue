@@ -7,6 +7,7 @@ import Dashboards from "../components/Dashboards.vue";
 import { Vue3Lottie } from "vue3-lottie";
 import MyAnimation from "../assets/animations/my-animation.json";
 import MyDesk from "../components/MyDesk.vue";
+import HeadlineSecond from "../components/HeadlineSecond.vue";
 import LastPingSecond from "../components/LastPingSecond.vue";
 
 const layout = ref("grid");
@@ -222,6 +223,9 @@ onUnmounted(() => {
           </div>
           <div class="col-span-full mt-10">
             <LastAnnouncement />
+          </div>
+          <div class="col-span-full mt-10">
+            <HeadlineSecond />
           </div>
         </div>
       </div>

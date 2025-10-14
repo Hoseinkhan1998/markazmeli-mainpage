@@ -112,7 +112,7 @@ onUnmounted(() => {
                   <br />
                   وضیعت اون کارت رو ببینی؟
                 </p>
-                <img src="/images/record.gif" class="w-[120px] h-[160px] rounded-lg shadow-md" alt="" />
+                <img src="/images/record.gif" class="!w-[150px] h-[160px] rounded-lg shadow-md" alt="" />
               </div>
             </div>
           </transition>
@@ -208,12 +208,12 @@ onUnmounted(() => {
           <div class="col-span-full mt-5 px-5">
             <Dashboards />
           </div>
-          <div class="col-span-full flex items-center justify-center gap-x-3">
+          <div class="col-span-full flex items-center justify-center gap-x-3 mt-10">
             <div class="w-full h-[2px] bg-gray-200"></div>
             <v-icon class="!text-gray-400">mdi-star-four-points-outline</v-icon>
             <div class="w-full h-[2px] bg-gray-200"></div>
           </div>
-          <div class="col-span-full">
+          <div class="col-span-full mt-10">
             <LastAnnouncement />
           </div>
         </div>

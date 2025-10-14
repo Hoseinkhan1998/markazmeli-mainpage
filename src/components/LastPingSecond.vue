@@ -91,7 +91,7 @@ const filteredCards = computed(() => {
 </script>
 
 <template>
-  <div class="h-full rounded-lg ps-3 bg-red-200/50">
+  <div class="h-full ps-3 bg-red-200/50">
     <div class="flex items-center justify-between pe-10 pt-3 -mb-5">
       <div class="text-xl font-semibold flex items-center gap-2">
         <v-icon class="!text-red-600">mdi-fire</v-icon>

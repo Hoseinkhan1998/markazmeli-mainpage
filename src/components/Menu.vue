@@ -42,7 +42,7 @@ const menuItems = ref([
       </router-link>
     </div>
     <router-link to="/second" class="absolute left-10  ">
-      <div class="opacity-0 hover:!opacity-100 transition-all duration-500 bg-white/70 text-black font-semibold rounded-lg px-3 py-1">صفحه دوم</div>
+      <div class="opacity-0 hover:!opacity-100 transition-all duration-500 bg-white/70 text-black font-semibold rounded-lg px-3 py-1">لایه دوم</div>
     </router-link>
   </div>
 </template>
