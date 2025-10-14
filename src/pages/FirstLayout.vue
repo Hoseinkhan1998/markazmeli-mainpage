@@ -20,7 +20,7 @@ const handleKeydown = (event) => {
   switch (event.key.toLowerCase()) {
     case "7":
       event.preventDefault();
-      layout.value = "grid";
+      triggerToast();
       break;
     case "9":
       event.preventDefault();
@@ -280,9 +280,6 @@ onUnmounted(() => {
       </div>
     </div>
   </v-dialog>
-  <button @click="triggerToast" class="btn btn-primary btn-circle fixed bottom-5 left-5 z-40 shadow-lg">
-    <v-icon>mdi-plus</v-icon>
-  </button>
 </template>
 
 <style scoped>
